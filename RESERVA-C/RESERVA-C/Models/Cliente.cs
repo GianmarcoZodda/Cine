@@ -1,8 +1,6 @@
 ﻿using System;
 
-public class Class1
+public class Cliente
 {
-	public Class1()
-	{
-	}
+
 }
