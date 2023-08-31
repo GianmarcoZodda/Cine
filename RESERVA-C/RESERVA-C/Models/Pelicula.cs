@@ -3,6 +3,8 @@
     public class Pelicula
     {
 
+        public int ID { get; set; }
+
         public DateTime FechaLanzamiento { get; set; }
 
         public string Titulo { get; set; }
