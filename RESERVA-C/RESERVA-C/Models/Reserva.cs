@@ -1,5 +1,5 @@
-﻿using System;
-
+﻿namespace RESERVA_C.Models
+{ 
 public class Reserva
 {
     public  int Id { get; set; }
@@ -13,4 +13,5 @@ public class Reserva
     public int CantidadButacas { get; set; }
 
 
+}
 }
