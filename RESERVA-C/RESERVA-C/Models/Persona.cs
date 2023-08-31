@@ -1,6 +1,6 @@
-﻿using System;
-
-public class Persona
+﻿namespace RESERVA_C.Models
 {
-	
+    public class Persona
+    {
+    }
 }

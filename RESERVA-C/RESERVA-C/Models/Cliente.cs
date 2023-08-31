@@ -1,6 +1,6 @@
-﻿using System;
-
-public class Cliente
+﻿namespace RESERVA_C.Models
 {
-
+    public class Cliente
+    {
+    }
 }

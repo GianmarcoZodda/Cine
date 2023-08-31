@@ -1,6 +1,6 @@
-﻿using System;
-
-public class Sala
+﻿namespace RESERVA_C.Models
 {
-
+    public class Sala
+    {
+    }
 }

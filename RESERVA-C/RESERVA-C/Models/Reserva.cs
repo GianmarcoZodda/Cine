@@ -1,6 +1,6 @@
-﻿using System;
-
-public class Reserva
+﻿namespace RESERVA_C.Models
 {
-
+    public class Reserva
+    {
+    }
 }

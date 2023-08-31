@@ -1,6 +1,6 @@
-﻿using System;
-
-public class Funcion
+﻿namespace RESERVA_C.Models
 {
-
+    public class Funcion
+    {
+    }
 }

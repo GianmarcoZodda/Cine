@@ -1,6 +1,6 @@
-﻿using System;
-
-public class Pelicula
+﻿namespace RESERVA_C.Models
 {
-
+    public class Pelicula
+    {
+    }
 }

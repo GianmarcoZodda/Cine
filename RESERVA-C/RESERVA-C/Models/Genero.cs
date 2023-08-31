@@ -1,6 +1,6 @@
-﻿using System;
-
-public class Genero
+﻿namespace RESERVA_C.Models
 {
-
+    public class Genero
+    {
+    }
 }
