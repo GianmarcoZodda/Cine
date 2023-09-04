@@ -7,7 +7,7 @@
 
         public int Numero { get; set; }
 
-        public string TipoSala { get; set; }
+        public TipoSala TipoSala { get; set; }
 
         public int CapacidadButacas { get; set; }
 
