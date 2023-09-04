@@ -5,8 +5,8 @@
         public int Id { get; set; }
         public DateTime Fecha { get; set; }
         public DateTime Hora { get; set; }
-        public bool Descripcion { get; set; }
-        public int ButacasDisponibles { get; set; }
+        public string Descripcion { get; set; }
+        public int ButacasDisponibles { get; }
         public bool Confirmada { get; set; }
         public int PeliculaId { get; set; }
         public Pelicula Pelicula { get; set; }
