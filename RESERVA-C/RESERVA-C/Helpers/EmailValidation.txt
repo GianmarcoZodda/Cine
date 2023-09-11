@@ -1,0 +1,10 @@
+
+@"^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+$"
+
+
+
+1) [a-zA-Z0-9] = tiene que comenzar con caracteres de la "a" a la "z" y/o numeros del 0 al 9.
+
+2) +@[a-zA-Z0-9] = despues de lo anterior tiene que estar el "@", seguido de el mismo patron explicado en el punto 1).
+
+3) +\.[a-zA-Z] = luego, tiene que estar un ".", y a continuacion se permite cualquier caracter alfabetico.

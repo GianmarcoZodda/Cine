@@ -3,7 +3,7 @@
   <Class Name="RESERVA_C.Models.Persona">
     <Position X="4.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAgAEAAAAAAAAAAAAAAAACAQAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAACAAAAEAAAAAAAAAAAAAAAACAQAAAAAAAAA=</HashCode>
       <FileName>Models\Persona.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -12,13 +12,13 @@
     <InheritanceLine Type="RESERVA_C.Models.Persona" FixedToPoint="true">
       <Path>
         <Point X="5.25" Y="2.373" />
-        <Point X="5.25" Y="2.625" />
-        <Point X="6.312" Y="2.625" />
+        <Point X="5.25" Y="2.8" />
+        <Point X="6.312" Y="2.8" />
         <Point X="6.312" Y="3" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAgAEEACAAgQAAAAEAAAAAAAAAAgAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAEEACAAgQAAAAEAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Models\Cliente.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -32,8 +32,8 @@
       <FileName>Models\Reserva.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Cliente" />
       <Property Name="Funcion" />
+      <Property Name="Cliente" />
     </ShowAsAssociation>
   </Class>
   <Class Name="RESERVA_C.Models.Sala">
@@ -59,7 +59,7 @@
   <Class Name="RESERVA_C.Models.Pelicula">
     <Position X="9.75" Y="1.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAgAAAAAAAAEIBAAAAAAAAAAAAIAAAABA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAEAAAAEIBAAAAAAAAAAAAIAAAABA=</HashCode>
       <FileName>Models\Pelicula.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -86,8 +86,8 @@
       <FileName>Models\Funcion.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Sala" />
       <Property Name="Pelicula" />
+      <Property Name="Sala" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Reservas" />
@@ -96,7 +96,7 @@
   <Class Name="RESERVA_C.Models.Empleado">
     <Position X="3.25" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAACAAAAEEACAAhAAAAAEAAAAAAAAAAgAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEACAAhAAAAAEAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Models\Empleado.cs</FileName>
     </TypeIdentifier>
   </Class>
