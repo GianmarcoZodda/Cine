@@ -28,7 +28,7 @@
   <Class Name="RESERVA_C.Models.Reserva">
     <Position X="6.25" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAiAEAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAiAEAABCAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
       <FileName>Models\Reserva.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -39,7 +39,7 @@
   <Class Name="RESERVA_C.Models.Sala">
     <Position X="13" Y="5.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAABAAAAAEAAAAAIAAAAAAAAAAABAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAEAABAAAAAEAAAAAIAAAAAAAAAAABAAA=</HashCode>
       <FileName>Models\Sala.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -99,11 +99,6 @@
       <HashCode>AAAAAAAAAAAAAAAEACAAhAAAAAEAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Models\Empleado.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="System.String" Collapsed="true">
-    <Position X="15.5" Y="7.75" Width="1.5" />
-    <TypeIdentifier />
-    <Lollipop Position="0.2" />
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
