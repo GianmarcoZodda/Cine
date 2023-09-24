@@ -9,7 +9,7 @@ namespace RESERVA_C.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(50, MinimumLength = 1, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(50, MinimumLength = 4, ErrorMessage = ErrorMsgs.MaxMin)]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
@@ -17,11 +17,10 @@ namespace RESERVA_C.Models
         public string Password { get; set; } = "Password1!";
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [RegularExpression(@"^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+$", ErrorMessage = ErrorMsgs.EmailInvalido)]
+        [EmailAddress(ErrorMessage = ErrorMsgs.EmailInvalido)]
         public string Email { get; set; }
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0: yy/MM/dd}")]
         public DateTime FechaAlta { get; set; }
 

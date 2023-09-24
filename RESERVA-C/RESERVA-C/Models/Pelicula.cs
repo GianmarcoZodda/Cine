@@ -20,7 +20,11 @@ namespace RESERVA_C.Models
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [StringLength(100, MinimumLength = 10, ErrorMessage = ErrorMsgs.MaxMin)]
+        [DataType(DataType.MultilineText)]
         public string Descripcion { get; set; }
+
+        [Required(ErrorMessage = ErrorMsgs.Required)]
+        public string Imagen { get; set; } = "default.jpg";
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
         public int GeneroId { get; set; }
