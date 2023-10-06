@@ -14,7 +14,6 @@ public class Reserva
     public Funcion Funcion { get; set; }
 
     [Required(ErrorMessage = ErrorMsgs.Required)]
-    [DataType(DataType.Date)]
     public DateTime FechaAlta { get; set; }
 
     [Required(ErrorMessage = ErrorMsgs.Required)]
