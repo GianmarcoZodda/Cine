@@ -8,6 +8,7 @@ namespace RESERVA_C.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
+        [Range(1, 20, ErrorMessage = ErrorMsgs.MaxMin)]
         public int Numero { get; set; }
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
