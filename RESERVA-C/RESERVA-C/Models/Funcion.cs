@@ -1,5 +1,6 @@
 ﻿using RESERVA_C.Helpers;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RESERVA_C.Models
 {
@@ -8,13 +9,17 @@ namespace RESERVA_C.Models
         [Key]
         public int Id { get; set; }
 
+        public DateTime FechaHora { get; set; }
+
+        [NotMapped]
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [DataType(DataType.Date)]
-        public DateTime Fecha { get; set; }
+        public DateTime Fecha { get; set; }//propiedad autoimplementada para que el get sea de la prop FechaHora
 
+        [NotMapped]
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [DataType(DataType.Time)]
-        public DateTime Hora { get; set; }
+        public DateTime Hora { get; set; }//propiedad autoimplementada para que el get sea de la prop FechaHora
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [StringLength(200, MinimumLength = 15, ErrorMessage = ErrorMsgs.MaxMin)]
