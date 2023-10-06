@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using RESERVA_C.Data;
+
 namespace RESERVA_C
 {
     public class Program
@@ -8,6 +11,9 @@ namespace RESERVA_C
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            //agregar servicio, prueba 01 Zodda
+            builder.Services.AddDbContext<ReservaContext>(options => options.UseInMemoryDatabase("ReservaDb"));
 
             var app = builder.Build();
 
