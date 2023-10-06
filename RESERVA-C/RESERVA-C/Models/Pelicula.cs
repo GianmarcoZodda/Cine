@@ -11,6 +11,7 @@ namespace RESERVA_C.Models
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0: yy/MM/dd}")]
+        [Display(Name = "Fecha de Lanzamiento")]
         public DateTime FechaLanzamiento { get; set; }
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
