@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RESERVA_C.Models.Persona>
+﻿@model IEnumerable<RESERVA_C.Models.Empleado>
 
 @{
     ViewData["Title"] = "Index";
@@ -11,7 +11,7 @@
 </p>
 <table class="table">
     <thead>
-        <tr>
+        <tr>           
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
@@ -29,16 +29,19 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UserName)
-            </th>           
+            </th>            
             <th>
                 @Html.DisplayNameFor(model => model.Email)
-            </th>            
+            </th>           
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Legajo)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
