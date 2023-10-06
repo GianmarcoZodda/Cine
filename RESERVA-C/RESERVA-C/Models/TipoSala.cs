@@ -14,5 +14,7 @@ namespace RESERVA_C.Models
         [Range(1, int.MaxValue, ErrorMessage = ErrorMsgs.MaxMin)]
         public int Precio { get; set; }
 
+        public List<Sala> Salas { get; set; }
+
     }
 }
