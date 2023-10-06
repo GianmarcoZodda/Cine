@@ -5,8 +5,7 @@ namespace RESERVA_C.Models
 {
     public class Persona
     {
-        [Key]
-        public int Id { get; set; }
+       public int Id { get; set; }
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
@@ -26,7 +25,7 @@ namespace RESERVA_C.Models
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [Range(100000000, 999999999, ErrorMessage = ErrorMsgs.MaxMin)]
-        public string Telefono { get; set; }
+        public int Telefono { get; set; }
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]

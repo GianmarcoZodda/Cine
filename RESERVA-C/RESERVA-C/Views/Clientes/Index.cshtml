@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RESERVA_C.Models.Persona>
+﻿@model IEnumerable<RESERVA_C.Models.Cliente>
 
 @{
     ViewData["Title"] = "Index";
@@ -28,11 +28,8 @@
                 @Html.DisplayNameFor(model => model.Direccion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>           
-            <th>
                 @Html.DisplayNameFor(model => model.Email)
-            </th>            
+            </th>           
             <th></th>
         </tr>
     </thead>
