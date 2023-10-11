@@ -35,11 +35,14 @@ namespace RESERVA_C.Models
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [StringLength(50, MinimumLength = 4, ErrorMessage = ErrorMsgs.MaxMin)]
+        [Display(Name = "Usuario")]
         public string UserName { get; set; }
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [StringLength(30, MinimumLength = 8, ErrorMessage = ErrorMsgs.MaxMin)]
+        [Display(Name = "Contraseña")]
+        [DataType(DataType.Password)]
         public string Password { get; set; } = "Password1!";
 
 
@@ -50,7 +53,17 @@ namespace RESERVA_C.Models
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0: yy/MM/dd}")]
+        [Display(Name = "Fecha de Alta")]
         public DateTime FechaAlta { get; set; }
+
+        [Display(Name = "Nombre Completo")]
+        public string NombreCompleto
+        {
+            get
+            {
+                return $"{Apellido}, {Nombre}";
+            }
+        }
 
     }
 }
