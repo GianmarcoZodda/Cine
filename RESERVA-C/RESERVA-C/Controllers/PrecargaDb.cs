@@ -52,7 +52,7 @@ namespace RESERVA_C.Controllers
                 UserName = "gjzodda",
                 Password = "Password1",
                 Email = "zoddagj@gmail.com",
-                FechaAlta = new DateTime(2002, 10, 03)
+                FechaAlta = DateTime.Now
             };
 
             _context.Personas.Add(persona);

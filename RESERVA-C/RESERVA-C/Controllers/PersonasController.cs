@@ -86,9 +86,9 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Password,Email,FechaAlta")] Persona persona)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Password,Email,FechaAlta")] Persona updatedPersona)
         {
-            if (id != persona.Id)
+            if (id != updatedPersona.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,27 @@ namespace RESERVA_C.Controllers
             {
                 try
                 {
-                    _context.Update(persona);
+                    // @MARIANO: Esto lo chatgpteamos, nos estaba modificando el fechadealta al actualizar todo el objeto con update y nos ponia por defecto 01/01/01.
+                    // Aca encontramos una solucion que es almacenar el objeto persona, hacer una variable updatedPersona que almacene la persona y excluir el campo fechaAlta.
+                    // Cual seria la manera de resolverlo?
+                    var originalPersona = await _context.Personas.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+
+                    if (originalPersona == null)
+                    {
+                        return NotFound();
+                    }                    
+                    // Copy the FechaAlta value from the original Persona to the updated one
+                    updatedPersona.FechaAlta = originalPersona.FechaAlta;
+                    // Exclude FechaAlta from the update
+                    _context.Entry(originalPersona).State = EntityState.Detached; // Detach the original object
+                    _context.Entry(updatedPersona).State = EntityState.Modified; // Mark the updated object as modified
+
+                    _context.Update(updatedPersona);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonaExists(persona.Id))
+                    if (!PersonaExists(updatedPersona.Id))
                     {
                         return NotFound();
                     }
@@ -113,7 +128,7 @@ namespace RESERVA_C.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(persona);
+            return View(updatedPersona);
         }
 
         // GET: Personas/Delete/5
