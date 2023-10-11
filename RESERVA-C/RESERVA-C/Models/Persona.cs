@@ -52,9 +52,9 @@ namespace RESERVA_C.Models
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0: yy/MM/dd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0: dd/MM/yy}")]
         [Display(Name = "Fecha de Alta")]
-        public DateTime FechaAlta { get; set; }
+        public DateTime FechaAlta { get; set; } 
 
         [Display(Name = "Nombre Completo")]
         public string NombreCompleto
