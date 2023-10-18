@@ -21,6 +21,16 @@ namespace RESERVA_C.Controllers
                 this.AddPersonas();
             }
 
+            if (!_context.Generos.Any())
+            {
+                this.AddGeneros();
+            }
+
+            if (!_context.Peliculas.Any())
+            {
+                this.AddPeliculas();
+            }
+
             return RedirectToAction("Index", "Home", new {mensaje = "Hice Precarga"});
         }
 
@@ -42,13 +52,47 @@ namespace RESERVA_C.Controllers
                 UserName = "gjzodda",
                 Password = "Password1",
                 Email = "zoddagj@gmail.com",
-                FechaAlta = new DateTime(2002, 10, 03)
+                FechaAlta = DateTime.Now
             };
 
             _context.Personas.Add(persona);
             _context.SaveChanges();
         }
 
-    
+        private void AddGeneros() 
+        {
+            Genero genero = new Genero()
+            {
+                Nombre = "Ciencia Ficcion"
+            };
+            _context.Generos.Add(genero);
+            _context.SaveChanges();
+        }
+
+        private void AddPeliculas()
+        {
+            Pelicula pelicula = new Pelicula()
+            {
+                FechaLanzamiento = new DateTime(14,04,2006),
+                Titulo = "Piratas del Caribe",
+                Descripcion = "Aparece Jack Sparrow y se pelea con el que tiene la pata de palo",
+                GeneroId = BuscarGenero("Ciencia Ficcion")
+            };
+            _context.Peliculas.Add(pelicula);
+            _context.SaveChanges();
+        }
+
+        private int BuscarGenero(string nombre) 
+        {
+            int generoId = 1;
+            Genero genero = _context.Generos.FirstOrDefault(g => g.Nombre == nombre);
+            if(genero != null)
+            {
+                generoId = genero.Id;
+            }
+            return generoId;
+        }
+
+
     }
 }
