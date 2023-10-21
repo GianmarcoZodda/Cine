@@ -86,12 +86,14 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Password,Email,FechaAlta")] Persona updatedPersona)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,Email")] Persona updatedPersona)
         {
             if (id != updatedPersona.Id)
             {
                 return NotFound();
             }
+
+          
 
             if (ModelState.IsValid)
             {
@@ -100,19 +102,17 @@ namespace RESERVA_C.Controllers
                     // @MARIANO: Esto lo chatgpteamos, nos estaba modificando el fechadealta al actualizar todo el objeto con update y nos ponia por defecto 01/01/01.
                     // Aca encontramos una solucion que es almacenar el objeto persona, hacer una variable updatedPersona que almacene la persona y excluir el campo fechaAlta.
                     // Cual seria la manera de resolverlo?
-                    var originalPersona = await _context.Personas.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+                    var originalPersona = await _context.Personas.FirstOrDefaultAsync(p => p.Id == id);
 
                     if (originalPersona == null)
                     {
                         return NotFound();
-                    }                    
+                    }
                     // Copy the FechaAlta value from the original Persona to the updated one
-                    updatedPersona.FechaAlta = originalPersona.FechaAlta;
-                    // Exclude FechaAlta from the update
-                    _context.Entry(originalPersona).State = EntityState.Detached; // Detach the original object
-                    _context.Entry(updatedPersona).State = EntityState.Modified; // Mark the updated object as modified
+                    originalPersona.Direccion = updatedPersona.Direccion;
+                    
 
-                    _context.Update(updatedPersona);
+                    _context.Update(originalPersona);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
