@@ -33,7 +33,7 @@ namespace RESERVA_C.Models
         public string Direccion { get; set; }
 
 
-        [Required(ErrorMessage = ErrorMsgs.Required)]
+        //[Required(ErrorMessage = ErrorMsgs.Required)]
         [StringLength(50, MinimumLength = 4, ErrorMessage = ErrorMsgs.MaxMin)]
         [Display(Name = "Usuario")]
         public string UserName { get; set; }

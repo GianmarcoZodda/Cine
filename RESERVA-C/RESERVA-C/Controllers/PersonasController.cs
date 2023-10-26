@@ -54,8 +54,9 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Password,Email")] Persona persona)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,Password,Email")] Persona persona)
         {
+            persona.UserName = persona.Email;
             if (ModelState.IsValid)
             {
                 persona.FechaAlta = DateTime.Now;
@@ -87,7 +88,7 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Password,Email")] Persona updatedPersona)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,Username,Password,Email")] Persona updatedPersona)
         {
             if (id != updatedPersona.Id)
             {
@@ -110,9 +111,7 @@ namespace RESERVA_C.Controllers
                     originalPersona.DNI = updatedPersona.DNI;
                     originalPersona.Telefono = updatedPersona.Telefono;
                     originalPersona.Direccion = updatedPersona.Direccion;
-                    originalPersona.UserName = updatedPersona.UserName;
                     originalPersona.Password = updatedPersona.Password;
-                    originalPersona.Email = updatedPersona.Email;
                     _context.Update(originalPersona);
                     await _context.SaveChangesAsync();
                 }
