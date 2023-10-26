@@ -9,6 +9,8 @@ namespace RESERVA_C.Models
         [Key]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = ErrorMsgs.Required)]
+        [Display(Name = "Fecha y Hora")]
         public DateTime FechaHora { get; set; }
 
         [NotMapped]
