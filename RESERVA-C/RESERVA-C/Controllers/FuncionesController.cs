@@ -67,8 +67,8 @@ namespace RESERVA_C.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PeliculaId"] = new SelectList(_context.Peliculas, "Id", "Descripcion", funcion.PeliculaId);
-            ViewData["SalaId"] = new SelectList(_context.Salas, "Id", "Id", funcion.SalaId);
+            ViewData["PeliculaId"] = new SelectList(_context.Peliculas, "Id", "Titulo", funcion.PeliculaId);
+            ViewData["SalaId"] = new SelectList(_context.Salas, "Id", "Numero", funcion.SalaId);
             return View(funcion);
         }
 
@@ -85,8 +85,8 @@ namespace RESERVA_C.Controllers
             {
                 return NotFound();
             }
-            ViewData["PeliculaId"] = new SelectList(_context.Peliculas, "Id", "Descripcion", funcion.PeliculaId);
-            ViewData["SalaId"] = new SelectList(_context.Salas, "Id", "Id", funcion.SalaId);
+            ViewData["PeliculaId"] = new SelectList(_context.Peliculas, "Id", "Titulo", funcion.PeliculaId);
+            ViewData["SalaId"] = new SelectList(_context.Salas, "Id", "Numero", funcion.SalaId);
             return View(funcion);
         }
 
