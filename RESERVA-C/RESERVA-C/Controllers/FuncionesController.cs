@@ -104,8 +104,8 @@ namespace RESERVA_C.Controllers
         // GET: Funciones/Create
         public IActionResult Create()
         {
-            ViewData["PeliculaId"] = new SelectList(_context.Peliculas, "Id", "Descripcion");
-            ViewData["SalaId"] = new SelectList(_context.Salas, "Id", "Id");
+            ViewData["PeliculaId"] = new SelectList(_context.Peliculas, "Id", "Titulo");
+            ViewData["SalaId"] = new SelectList(_context.Salas, "Id", "Numero");
             return View();
         }
 
