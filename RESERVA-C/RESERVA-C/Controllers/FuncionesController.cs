@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RESERVA_C.Data;
 using RESERVA_C.Models;
+using RESERVA_C.Models.ViewModels;
 
 namespace RESERVA_C.Controllers
 {
@@ -22,9 +23,63 @@ namespace RESERVA_C.Controllers
         // GET: Funciones
         public async Task<IActionResult> Index()
         {
-            var reservaContext = _context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala);
-            return View(await reservaContext.ToListAsync());
+            //var reservaContext = _context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala);
+            IQueryable<Funcion> funcion = _context.Funciones
+                   .Include(f => f.Pelicula)
+                   .Include(f => f.Sala)
+                   .Include(f => f.Reservas);
+            List<FuncionIndexVM> funcionesIndexVM = CalcularButacasDisponibles(funcion.ToList());
+            return View(funcionesIndexVM);
         }
+
+        private List<FuncionIndexVM> CalcularButacasDisponibles(List<Funcion> funciones)
+        {
+            List<FuncionIndexVM> lista = new List<FuncionIndexVM>();
+
+            foreach (var funcion in funciones)
+            {
+                FuncionIndexVM funcionIndexVM = new FuncionIndexVM()
+                {
+                    Id = funcion.Id,
+                    FechaHora = funcion.FechaHora,
+                    Descripcion = funcion.Descripcion,
+                    Confirmada = funcion.Confirmada,
+                    Pelicula = funcion.Pelicula,
+                    PeliculaId = funcion.PeliculaId,
+                    Reservas = funcion.Reservas,
+                    Sala = funcion.Sala,
+                    SalaId = funcion.SalaId
+                };
+                if (funcionIndexVM.Sala != null && funcionIndexVM.Reservas != null)
+                {
+                    funcionIndexVM.ButacasDisponibles = CalcularButacas(funcion.Sala.CapacidadButacas, funcion.Reservas);
+                }
+                else
+                {
+                    funcionIndexVM.ButacasDisponibles = 0;
+                }
+                lista.Add(funcionIndexVM);
+            }
+
+
+            return lista;
+        }
+
+        private int CalcularButacas(int capacidadButacas, List<Reserva> reservas)
+        {
+            return capacidadButacas - GetCantidadButacas(reservas);
+        }
+
+        private int GetCantidadButacas(List<Reserva> reservas)
+        {
+            int resultado = 0;
+            foreach (Reserva reserva in reservas)
+            {
+                resultado += reserva.CantidadButacas;
+            }
+            return resultado;
+        }
+
 
         // GET: Funciones/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -49,8 +104,8 @@ namespace RESERVA_C.Controllers
         // GET: Funciones/Create
         public IActionResult Create()
         {
-            ViewData["PeliculaId"] = new SelectList(_context.Peliculas, "Id", "Descripcion");
-            ViewData["SalaId"] = new SelectList(_context.Salas, "Id", "Id");
+            ViewData["PeliculaId"] = new SelectList(_context.Peliculas, "Id", "Titulo");
+            ViewData["SalaId"] = new SelectList(_context.Salas, "Id", "Numero");
             return View();
         }
 

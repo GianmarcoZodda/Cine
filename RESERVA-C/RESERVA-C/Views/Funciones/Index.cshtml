@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RESERVA_C.Models.Funcion>
+﻿@model IEnumerable<RESERVA_C.Models.ViewModels.FuncionIndexVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,19 +13,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FechaHora)
+                @Html.DisplayNameFor(model => model.Pelicula)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sala)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Confirmada)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Pelicula)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sala)
+                @Html.DisplayNameFor(model => model.ButacasDisponibles)
             </th>
             <th></th>
         </tr>
@@ -34,19 +37,22 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaHora)
+                @Html.DisplayFor(modelItem => item.Pelicula.Titulo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sala.Numero)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Confirmada)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Pelicula.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sala.Numero)
+                @Html.DisplayFor(modelItem => item.ButacasDisponibles)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
