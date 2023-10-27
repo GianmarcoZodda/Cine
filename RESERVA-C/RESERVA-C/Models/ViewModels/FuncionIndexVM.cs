@@ -17,12 +17,20 @@ namespace RESERVA_C.Models.ViewModels
         [NotMapped]
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [DataType(DataType.Date)]
-        public DateTime Fecha { get; set; }//propiedad autoimplementada para que el get sea de la prop FechaHora
+        public DateTime Fecha
+        {
+            get { return FechaHora.Date; } // Obtiene solo la fecha de FechaHora
+            set { FechaHora = value.Date + FechaHora.TimeOfDay; } // Establece la fecha en FechaHora sin cambiar la hora
+        }
 
         [NotMapped]
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [DataType(DataType.Time)]
-        public DateTime Hora { get; set; }//propiedad autoimplementada para que el get sea de la prop FechaHora
+        public DateTime Hora
+        {
+            get { return DateTime.MinValue.Add(FechaHora.TimeOfDay); ; } // Obtiene solo la hora de FechaHora
+            set { FechaHora = FechaHora.Date + value.TimeOfDay; } // Establece la hora en FechaHora sin cambiar la fecha
+        }
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [StringLength(200, MinimumLength = 15, ErrorMessage = ErrorMsgs.MaxMin)]

@@ -13,19 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FechaHora)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Confirmada)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Pelicula)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Sala)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Confirmada)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ButacasDisponibles)
@@ -37,19 +37,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaHora)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Confirmada)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Pelicula.Titulo)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hora)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Sala.Numero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Confirmada)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ButacasDisponibles)
