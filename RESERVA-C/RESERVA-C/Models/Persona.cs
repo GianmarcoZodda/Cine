@@ -9,12 +9,12 @@ namespace RESERVA_C.Models
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = ErrorMsgs.StrLength)]
         public string Nombre { get; set; }
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = ErrorMsgs.StrLength)]
         public string Apellido { get; set; }
 
 
@@ -29,18 +29,18 @@ namespace RESERVA_C.Models
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(100, MinimumLength = 5, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = ErrorMsgs.StrLength)]
         public string Direccion { get; set; }
 
 
         //[Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(50, MinimumLength = 4, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(50, MinimumLength = 4, ErrorMessage = ErrorMsgs.StrLength)]
         [Display(Name = "Usuario")]
         public string UserName { get; set; }
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(30, MinimumLength = 8, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(30, MinimumLength = 8, ErrorMessage = ErrorMsgs.StrLength)]
         [Display(Name = "Contraseña")]
         [DataType(DataType.Password)]
         public string Password { get; set; } = "Password1!";

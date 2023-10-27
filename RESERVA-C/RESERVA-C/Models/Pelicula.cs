@@ -15,12 +15,12 @@ namespace RESERVA_C.Models
         public DateTime FechaLanzamiento { get; set; }
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(42, MinimumLength = 2, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(42, MinimumLength = 2, ErrorMessage = ErrorMsgs.StrLength)]
         //"Taare Zameen Par: Every Child Is Special." Este título tiene un total de 42 caracteres, incluyendo espacios y signos de puntuación. La mas corta es "Up".
         public string Titulo { get; set; }
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(100, MinimumLength = 10, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(100, MinimumLength = 10, ErrorMessage = ErrorMsgs.StrLength)]
         [DataType(DataType.MultilineText)]
         public string Descripcion { get; set; }
 
