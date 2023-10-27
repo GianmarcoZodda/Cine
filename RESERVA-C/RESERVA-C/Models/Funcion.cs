@@ -46,5 +46,7 @@ namespace RESERVA_C.Models
 
         public List<Reserva> Reservas { get; set; }
 
+        public string FuncionCompleta
+        { get { return $"{Pelicula.Titulo} - {FechaHora} - Sala: {Sala.Numero}"; } }
     }
 }
