@@ -13,7 +13,10 @@ namespace RESERVA_C
             builder.Services.AddControllersWithViews();
 
             //agregar servicio, prueba 01 Zodda
-            builder.Services.AddDbContext<ReservaContext>(options => options.UseInMemoryDatabase("ReservaDb"));
+            // builder.Services.AddDbContext<ReservaContext>(options => options.UseInMemoryDatabase("ReservaDb"));
+            builder.Services.AddDbContext<ReservaContext>(options =>
+                     options.UseSqlServer(builder.Configuration.GetConnectionString("CineDB2CG5"))
+                     );
 
             var app = builder.Build();
 
