@@ -86,34 +86,47 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Password,Email,FechaAlta")] Cliente cliente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Email")] Cliente updatedCliente)
         {
-            if (id != cliente.Id)
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                if (id != updatedCliente.Id)
                 {
-                    _context.Update(cliente);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+                if (ModelState.IsValid)
                 {
-                    if (!ClienteExists(cliente.Id))
+                    try
                     {
-                        return NotFound();
+                        var originalCliente = await _context.Clientes.FirstOrDefaultAsync(p => p.Id == id);
+                        if (originalCliente == null)
+                        {
+                            return NotFound();
+                        }
+                        originalCliente.Nombre = updatedCliente.Nombre;
+                        originalCliente.Apellido = updatedCliente.Apellido;
+                        originalCliente.DNI = updatedCliente.DNI;
+                        originalCliente.Telefono = updatedCliente.Telefono;
+                        originalCliente.Direccion = updatedCliente.Direccion;
+                        originalCliente.UserName = updatedCliente.UserName;
+                        originalCliente.Email = updatedCliente.Email;
+                        _context.Update(originalCliente);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!ClienteExists(updatedCliente.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                return View(updatedCliente);
             }
-            return View(cliente);
         }
 
         // GET: Clientes/Delete/5

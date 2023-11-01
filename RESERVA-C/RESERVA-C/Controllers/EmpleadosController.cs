@@ -86,38 +86,51 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Legajo,Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Password,Email,FechaAlta")] Empleado empleado)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Email")] Empleado updatedEmpleado)
         {
-            if (id != empleado.Id)
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                if (id != updatedEmpleado.Id)
                 {
-                    _context.Update(empleado);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+                if (ModelState.IsValid)
                 {
-                    if (!EmpleadoExists(empleado.Id))
+                    try
                     {
-                        return NotFound();
+                        var originalEmpleado = await _context.Empleados.FirstOrDefaultAsync(p => p.Id == id);
+                        if (originalEmpleado == null)
+                        {
+                            return NotFound();
+                        }
+                        originalEmpleado.Nombre = updatedEmpleado.Nombre;
+                        originalEmpleado.Apellido = updatedEmpleado.Apellido;
+                        originalEmpleado.DNI = updatedEmpleado.DNI;
+                        originalEmpleado.Telefono = updatedEmpleado.Telefono;
+                        originalEmpleado.Direccion = updatedEmpleado.Direccion;
+                        originalEmpleado.UserName = updatedEmpleado.UserName;
+                        originalEmpleado.Email = updatedEmpleado.Email;
+                        _context.Update(originalEmpleado);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!EmpleadoExists(updatedEmpleado.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                return View(updatedEmpleado);
             }
-            return View(empleado);
         }
 
-        // GET: Empleados/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+            // GET: Empleados/Delete/5
+            public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Empleados == null)
             {

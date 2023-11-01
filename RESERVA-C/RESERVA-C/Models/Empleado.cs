@@ -7,7 +7,7 @@ namespace RESERVA_C.Models
     {
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [StringLength(50, MinimumLength = 5, ErrorMessage = ErrorMsgs.MaxMin)]
-        public string Legajo { get; set; }
+        public string Legajo { get; set; } = Generadores.GetNewLegajo(5);
 
     }
 }
