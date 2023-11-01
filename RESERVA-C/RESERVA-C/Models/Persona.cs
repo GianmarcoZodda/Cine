@@ -9,12 +9,12 @@ namespace RESERVA_C.Models
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = ErrorMsgs.StrLength)]
         public string Nombre { get; set; }
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = ErrorMsgs.StrLength)]
         public string Apellido { get; set; }
 
 
@@ -29,17 +29,20 @@ namespace RESERVA_C.Models
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(100, MinimumLength = 5, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = ErrorMsgs.StrLength)]
         public string Direccion { get; set; }
 
 
-        [Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(50, MinimumLength = 4, ErrorMessage = ErrorMsgs.MaxMin)]
+        //[Required(ErrorMessage = ErrorMsgs.Required)]
+        [StringLength(50, MinimumLength = 4, ErrorMessage = ErrorMsgs.StrLength)]
+        [Display(Name = "Usuario")]
         public string UserName { get; set; }
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(30, MinimumLength = 8, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(30, MinimumLength = 8, ErrorMessage = ErrorMsgs.StrLength)]
+        [Display(Name = "Contraseña")]
+        [DataType(DataType.Password)]
         public string Password { get; set; } = "Password1!";
 
 
@@ -49,8 +52,18 @@ namespace RESERVA_C.Models
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0: yy/MM/dd}")]
-        public DateTime FechaAlta { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0: dd/MM/yy}")]
+        [Display(Name = "Fecha de Alta")]
+        public DateTime FechaAlta { get; set; } 
+
+        [Display(Name = "Nombre Completo")]
+        public string NombreCompleto
+        {
+            get
+            {
+                return $"{Apellido}, {Nombre}";
+            }
+        }
 
     }
 }

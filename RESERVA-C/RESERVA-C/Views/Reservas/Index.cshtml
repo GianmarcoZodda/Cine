@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RESERVA_C.Models.Cliente>
+﻿@model IEnumerable<RESERVA_C.Models.Reserva>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,20 +13,17 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nombre)
+                @Html.DisplayNameFor(model => model.Funcion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Apellido)
+                @Html.DisplayNameFor(model => model.FechaAlta)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DNI)
+                @Html.DisplayNameFor(model => model.Cliente)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Telefono)
-            </th>            
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>           
+                @Html.DisplayNameFor(model => model.CantidadButacas)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -34,20 +31,17 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
+                @Html.DisplayFor(modelItem => item.Funcion.Descripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Apellido)
+                @Html.DisplayFor(modelItem => item.FechaAlta)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DNI)
+                @Html.DisplayFor(modelItem => item.Cliente.Apellido)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Telefono)
-            </td>            
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>         
+                @Html.DisplayFor(modelItem => item.CantidadButacas)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

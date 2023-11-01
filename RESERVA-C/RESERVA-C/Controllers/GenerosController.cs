@@ -10,114 +10,99 @@ using RESERVA_C.Models;
 
 namespace RESERVA_C.Controllers
 {
-    public class PersonasController : Controller
+    public class GenerosController : Controller
     {
         private readonly ReservaContext _context;
 
-        public PersonasController(ReservaContext context)
+        public GenerosController(ReservaContext context)
         {
             _context = context;
         }
 
-        // GET: Personas
+        // GET: Generos
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Personas.ToListAsync());
+              return View(await _context.Generos.ToListAsync());
         }
 
-        // GET: Personas/Details/5
+        // GET: Generos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Personas == null)
+            if (id == null || _context.Generos == null)
             {
                 return NotFound();
             }
 
-            var persona = await _context.Personas
+            var genero = await _context.Generos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (persona == null)
+            if (genero == null)
             {
                 return NotFound();
             }
 
-            return View(persona);
+            return View(genero);
         }
 
-        // GET: Personas/Create
+        // GET: Generos/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Personas/Create
+        // POST: Generos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,Password,Email")] Persona persona)
+        public async Task<IActionResult> Create([Bind("Id,Nombre")] Genero genero)
         {
-            persona.UserName = persona.Email;
             if (ModelState.IsValid)
             {
-                persona.FechaAlta = DateTime.Now;
-                _context.Add(persona);
+                _context.Add(genero);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(persona);
+            return View(genero);
         }
 
-        // GET: Personas/Edit/5
+        // GET: Generos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Personas == null)
+            if (id == null || _context.Generos == null)
             {
                 return NotFound();
             }
 
-            var persona = await _context.Personas.FindAsync(id);
-            if (persona == null)
+            var genero = await _context.Generos.FindAsync(id);
+            if (genero == null)
             {
                 return NotFound();
             }
-            return View(persona);
+            return View(genero);
         }
 
-        // POST: Personas/Edit/5
+        // POST: Generos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,Username,Password,Email")] Persona updatedPersona)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre")] Genero genero)
         {
-            if (id != updatedPersona.Id)
+            if (id != genero.Id)
             {
                 return NotFound();
             }
-
-          
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var originalPersona = await _context.Personas.FirstOrDefaultAsync(p => p.Id == id);
-                    if (originalPersona == null)
-                    {
-                        return NotFound();
-                    }
-                    originalPersona.Nombre = updatedPersona.Nombre;
-                    originalPersona.Apellido = updatedPersona.Apellido;
-                    originalPersona.DNI = updatedPersona.DNI;
-                    originalPersona.Telefono = updatedPersona.Telefono;
-                    originalPersona.Direccion = updatedPersona.Direccion;
-                    originalPersona.Password = updatedPersona.Password;
-                    _context.Update(originalPersona);
+                    _context.Update(genero);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonaExists(updatedPersona.Id))
+                    if (!GeneroExists(genero.Id))
                     {
                         return NotFound();
                     }
@@ -128,49 +113,49 @@ namespace RESERVA_C.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(updatedPersona);
+            return View(genero);
         }
 
-        // GET: Personas/Delete/5
+        // GET: Generos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Personas == null)
+            if (id == null || _context.Generos == null)
             {
                 return NotFound();
             }
 
-            var persona = await _context.Personas
+            var genero = await _context.Generos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (persona == null)
+            if (genero == null)
             {
                 return NotFound();
             }
 
-            return View(persona);
+            return View(genero);
         }
 
-        // POST: Personas/Delete/5
+        // POST: Generos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Personas == null)
+            if (_context.Generos == null)
             {
-                return Problem("Entity set 'ReservaContext.Personas'  is null.");
+                return Problem("Entity set 'ReservaContext.Generos'  is null.");
             }
-            var persona = await _context.Personas.FindAsync(id);
-            if (persona != null)
+            var genero = await _context.Generos.FindAsync(id);
+            if (genero != null)
             {
-                _context.Personas.Remove(persona);
+                _context.Generos.Remove(genero);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PersonaExists(int id)
+        private bool GeneroExists(int id)
         {
-          return _context.Personas.Any(e => e.Id == id);
+          return _context.Generos.Any(e => e.Id == id);
         }
     }
 }

@@ -11,6 +11,7 @@ public class Reserva
 
     [Required(ErrorMessage = ErrorMsgs.Required)]
     public int FuncionId { get; set; }
+
     public Funcion Funcion { get; set; }
 
     [Required(ErrorMessage = ErrorMsgs.Required)]
