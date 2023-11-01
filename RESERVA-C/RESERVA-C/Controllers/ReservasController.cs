@@ -63,6 +63,7 @@ namespace RESERVA_C.Controllers
         {
             if (ModelState.IsValid)
             {
+                reserva.FechaAlta = DateTime.Now;
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
