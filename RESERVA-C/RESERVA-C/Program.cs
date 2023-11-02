@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RESERVA_C.Data;
+using RESERVA_C.Models;
 
 namespace RESERVA_C
 {
@@ -18,6 +20,18 @@ namespace RESERVA_C
                      options.UseSqlServer(builder.Configuration.GetConnectionString("CineDB2CG5"))
                      );
 
+            builder.Services.AddIdentity<Persona, Rol>().AddEntityFrameworkStores<ReservaContext>();
+
+            builder.Services.Configure<IdentityOptions>(opciones =>
+            {
+                opciones.Password.RequireNonAlphanumeric = false;
+                opciones.Password.RequireLowercase = false;
+                opciones.Password.RequireUppercase = false;
+                opciones.Password.RequireDigit = false;
+                opciones.Password.RequiredLength = 5;
+            }
+            );
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -33,6 +47,7 @@ namespace RESERVA_C
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
