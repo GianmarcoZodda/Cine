@@ -46,7 +46,17 @@ namespace RESERVA_C.Models
 
         public List<Reserva> Reservas { get; set; }
 
+
+        // Resolver en la capa de servicios.
         public string FuncionCompleta
-        { get { return $"{Pelicula.Titulo} - {FechaHora} - Sala: {Sala.Numero}"; } }
+        { 
+            get { 
+                if(Pelicula != null && Sala != null)
+                {
+                    return $"{Pelicula.Titulo} - {FechaHora} - Sala: {Sala.Numero}";
+                }
+                return "N/D";
+            } 
+        }
     }
 }

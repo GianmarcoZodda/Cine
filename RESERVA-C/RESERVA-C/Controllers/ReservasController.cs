@@ -50,7 +50,7 @@ namespace RESERVA_C.Controllers
         public IActionResult Create()
         {
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido");
-            ViewData["FuncionId"] = new SelectList(_context.Funciones, "Id", "Descripcion");
+            ViewData["FuncionId"] = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta");
             return View();
         }
 
