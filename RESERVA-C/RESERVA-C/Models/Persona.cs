@@ -1,11 +1,12 @@
-﻿ using RESERVA_C.Helpers;
+﻿using Microsoft.AspNetCore.Identity;
+using RESERVA_C.Helpers;
 using System.ComponentModel.DataAnnotations;
 
 namespace RESERVA_C.Models
 {
-    public class Persona
+    public class Persona : IdentityUser<int>
     {
-       public int Id { get; set; }
+       // public int Id { get; set; }
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
@@ -36,7 +37,10 @@ namespace RESERVA_C.Models
         //[Required(ErrorMessage = ErrorMsgs.Required)]
         [StringLength(50, MinimumLength = 4, ErrorMessage = ErrorMsgs.StrLength)]
         [Display(Name = "Usuario")]
-        public string UserName { get; set; }
+        public override string UserName {
+            get { return base.UserName; }
+            set { base.Email = value; } 
+        }
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
@@ -48,7 +52,10 @@ namespace RESERVA_C.Models
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [EmailAddress(ErrorMessage = ErrorMsgs.EmailInvalido)]
-        public string Email { get; set; }
+        public override string Email {
+            get { return base.Email; }
+            set { base.Email = value; } 
+        }
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
