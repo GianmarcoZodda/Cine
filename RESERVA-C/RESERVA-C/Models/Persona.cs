@@ -39,7 +39,7 @@ namespace RESERVA_C.Models
         [Display(Name = "Usuario")]
         public override string UserName {
             get { return base.UserName; }
-            set { base.Email = value; } 
+            set { base.UserName = value; } 
         }
 
 

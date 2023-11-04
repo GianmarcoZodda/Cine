@@ -56,9 +56,10 @@ namespace RESERVA_C.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,Password,Email")] Persona persona)
         {
-            persona.UserName = persona.Email;
+            
             if (ModelState.IsValid)
             {
+                persona.UserName = persona.Email;
                 persona.FechaAlta = DateTime.Now;
                 _context.Add(persona);
                 await _context.SaveChangesAsync();
