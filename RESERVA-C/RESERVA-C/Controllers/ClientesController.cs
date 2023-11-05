@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using RESERVA_C.Models;
 
 namespace RESERVA_C.Controllers
 {
+    //[Authorize]
     public class ClientesController : Controller
     {
         private readonly ReservaContext _context;
@@ -20,9 +22,11 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Clientes
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Clientes.ToListAsync());
+            var usuario = User.Claims.FirstOrDefault();
+            return View(await _context.Clientes.ToListAsync());
         }
 
         // GET: Clientes/Details/5
@@ -44,6 +48,7 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Clientes/Create
+        //[Authorize(Roles = "EmpleadoRol")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +59,7 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "EmpleadoRol")]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Password,Email,FechaAlta")] Cliente cliente)
         {
             if (ModelState.IsValid)
@@ -78,7 +84,15 @@ namespace RESERVA_C.Controllers
             {
                 return NotFound();
             }
-            return View(cliente);
+
+            string username = User.Identity.Name;
+
+            if (username.ToUpper().Equals(cliente.NormalizedEmail))
+            {
+                return View(cliente);
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Clientes/Edit/5

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using RESERVA_C.Data;
 using RESERVA_C.Helpers;
 using RESERVA_C.Models;
@@ -9,14 +10,23 @@ namespace RESERVA_C.Controllers
     {
 
         private readonly ReservaContext _context;
+        private readonly UserManager<Persona> _userManager;
+        private readonly SignInManager<Persona> _signInManager;
+        private readonly RoleManager<Rol> _roleManager;
 
-        public PrecargaDb(ReservaContext context)
+        public PrecargaDb(ReservaContext context, UserManager<Persona> userManager, SignInManager<Persona> signInManager,
+            RoleManager<Rol> roleManager)
         {
             this._context = context;
+            this._userManager = userManager;
+            this._signInManager = signInManager;
+            this._roleManager = roleManager;
         }
 
         public IActionResult Seed()
         {
+            CrearRoles().Wait();
+
             if (!_context.Clientes.Any())
             {
                 this.AddClientes();
@@ -58,6 +68,15 @@ namespace RESERVA_C.Controllers
             }
             
             return RedirectToAction("Index", "Home", new {mensaje = "Hice Precarga"});
+        }
+
+        private async Task CrearRoles()
+        {
+           Rol rolcliente = new Rol() { Name = "ClienteRol"};
+           Rol rolempleado = new Rol() { Name = "EmpleadoRol" };
+
+            await _roleManager.CreateAsync(rolcliente);
+            await _roleManager.CreateAsync(rolempleado);
         }
 
         public IActionResult Remove()

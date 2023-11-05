@@ -26,6 +26,6 @@ namespace RESERVA_C.Models.ViewModels
         public string ConfirmPassword { get; set; }
 
         //[Display(Name = "No soy un Robot")]
-        //public bool Captcha {  get; set; }
+        //public bool Captcha {  get; set; } = false
     }
 }

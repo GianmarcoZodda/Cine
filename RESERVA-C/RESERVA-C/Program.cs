@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RESERVA_C.Data;
@@ -19,6 +20,14 @@ namespace RESERVA_C
             builder.Services.AddDbContext<ReservaContext>(options =>
                      options.UseSqlServer(builder.Configuration.GetConnectionString("CineDB2CG5"))
                      );
+
+            builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
+                opciones =>
+                {
+                    opciones.LoginPath = "/Account/IniciarSesion";
+                    opciones.AccessDeniedPath = "/Account/AccesoDenegado";
+                }
+                );
 
             builder.Services.AddIdentity<Persona, Rol>().AddEntityFrameworkStores<ReservaContext>();
 
