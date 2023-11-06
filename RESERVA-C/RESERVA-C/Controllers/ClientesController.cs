@@ -11,7 +11,7 @@ using RESERVA_C.Models;
 
 namespace RESERVA_C.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ClientesController : Controller
     {
         private readonly ReservaContext _context;
@@ -48,7 +48,7 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Clientes/Create
-        //[Authorize(Roles = "EmpleadoRol")]
+        [Authorize(Roles = "EmpleadoRol")]
         public IActionResult Create()
         {
             return View();
@@ -59,7 +59,7 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "EmpleadoRol")]
+        [Authorize(Roles = "EmpleadoRol")]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Password,Email,FechaAlta")] Cliente cliente)
         {
             if (ModelState.IsValid)
