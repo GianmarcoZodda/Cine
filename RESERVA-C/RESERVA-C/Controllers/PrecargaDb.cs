@@ -29,12 +29,12 @@ namespace RESERVA_C.Controllers
 
             if (!_context.Clientes.Any())
             {
-                this.AddClientes();
+                this.AddClientes().Wait();
             }
 
             if (!_context.Empleados.Any())
             {
-                this.AddEmpleados();
+                this.AddEmpleados().Wait();
             }
 
             if (!_context.Generos.Any())
@@ -85,7 +85,7 @@ namespace RESERVA_C.Controllers
             _context.Database.EnsureCreated();
             return RedirectToAction("Index", "Home", new {mensaje = "Borre"});
         }
-        private void AddClientes()
+        private async Task AddClientes()
         {
             Persona cliente1 = new Cliente()
             {
@@ -95,14 +95,13 @@ namespace RESERVA_C.Controllers
                 Telefono = 100000001,
                 Direccion = "san martin",
                 UserName = "zoddagj@gmail.com",
-                Password = "Password1",
                 Email = "zoddagj@gmail.com",
                 FechaAlta = DateTime.Now
             };
-            _context.Personas.Add(cliente1);
-            _context.SaveChanges();
+            await _userManager.CreateAsync(cliente1, "Password1!");
+            await _userManager.AddToRoleAsync(cliente1, "ClienteRol");
         }
-        private void AddEmpleados()
+        private async Task AddEmpleados()
         {
             Persona empleado1 = new Empleado()
             {
@@ -112,13 +111,12 @@ namespace RESERVA_C.Controllers
                 Telefono = 100000001,
                 Direccion = "Montecastro",
                 UserName = "nahueze@gmail.com",
-                Password = "Password1",
                 Email = "nahueze@gmail.com",
                 FechaAlta = DateTime.Now,
                 Legajo = Generadores.GetNewLegajo(5)
             };
-            _context.Personas.Add(empleado1);
-            _context.SaveChanges();
+            await _userManager.CreateAsync(empleado1, "Password1!");
+            await _userManager.AddToRoleAsync(empleado1, "EmpleadoRol");
         }
         private void AddGeneros() 
         {
