@@ -45,11 +45,12 @@ namespace RESERVA_C.Controllers
                 if (resultado.Succeeded)
                 {
                     var result = await _userManager.AddToRoleAsync(cliente, "ClienteRol");
-                   
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Edit", "Clientes", new { id = cliente.Id });
-                    }
+                    await _signInManager.SignInAsync(cliente, isPersistent: false);
+                    return RedirectToAction("Edit", "Clientes", new { id = cliente.Id });
+                    //if (result.Succeeded)
+                    //{
+                    //    return RedirectToAction("Edit", "Clientes", new { id = cliente.Id });
+                    //}
                  //si no se logra añadir el rol no nos va a llevar a la vista de edit. Aca abajo podemos decir que hacer en este caso 
                 
                 }
