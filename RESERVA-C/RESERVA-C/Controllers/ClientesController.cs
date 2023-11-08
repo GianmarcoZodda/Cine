@@ -54,10 +54,12 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Password,Email,FechaAlta")] Cliente cliente)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,Password,Email")] Cliente cliente)
         {
+            cliente.UserName = cliente.Email;
             if (ModelState.IsValid)
             {
+                cliente.FechaAlta = DateTime.Now;
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -107,8 +109,6 @@ namespace RESERVA_C.Controllers
                         originalCliente.DNI = updatedCliente.DNI;
                         originalCliente.Telefono = updatedCliente.Telefono;
                         originalCliente.Direccion = updatedCliente.Direccion;
-                        originalCliente.UserName = updatedCliente.UserName;
-                        originalCliente.Email = updatedCliente.Email;
                         _context.Update(originalCliente);
                         await _context.SaveChangesAsync();
                     }

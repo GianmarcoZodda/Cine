@@ -75,7 +75,7 @@ namespace RESERVA_C.Controllers
                 DNI = 44211766,
                 Telefono = 100000001,
                 Direccion = "san martin",
-                UserName = "gjzodda",
+                UserName = "zoddagj@gmail.com",
                 Password = "Password1",
                 Email = "zoddagj@gmail.com",
                 FechaAlta = DateTime.Now
@@ -92,7 +92,7 @@ namespace RESERVA_C.Controllers
                 DNI = 43035648,
                 Telefono = 100000001,
                 Direccion = "Montecastro",
-                UserName = "Nahueze",
+                UserName = "nahueze@gmail.com",
                 Password = "Password1",
                 Email = "nahueze@gmail.com",
                 FechaAlta = DateTime.Now,
