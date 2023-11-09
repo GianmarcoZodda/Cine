@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +15,7 @@ namespace RESERVA_C.Controllers
     public class EmpleadosController : Controller
     {
         private readonly ReservaContext _context;
+        private readonly UserManager<Persona> _userManager;
 
         public EmpleadosController(ReservaContext context)
         {
@@ -54,6 +57,7 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> Create([Bind("Legajo,Id,Nombre,Apellido,DNI,Telefono,Direccion,Password,Email")] Empleado empleado)
         {
             empleado.UserName = empleado.Email;
@@ -61,6 +65,7 @@ namespace RESERVA_C.Controllers
             {
                 empleado.FechaAlta = DateTime.Now;
                 _context.Add(empleado);
+                await _userManager.AddToRoleAsync(empleado, "EmpleadoRol");
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

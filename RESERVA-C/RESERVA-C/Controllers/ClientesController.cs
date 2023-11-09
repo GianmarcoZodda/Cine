@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,14 +16,16 @@ namespace RESERVA_C.Controllers
     public class ClientesController : Controller
     {
         private readonly ReservaContext _context;
+        private readonly UserManager<Persona> _userManager;
 
-        public ClientesController(ReservaContext context)
+        public ClientesController(ReservaContext context, UserManager<Persona> user)
         {
             _context = context;
+            _userManager = user;
         }
 
         // GET: Clientes
-        [AllowAnonymous]
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]        
         public async Task<IActionResult> Index()
         {
             var usuario = User.Claims.FirstOrDefault();
@@ -30,8 +33,11 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Clientes/Details/5
+        [Authorize(Roles = "AdminRol, EmpleadoRol, ClienteRol")]
         public async Task<IActionResult> Details(int? id)
         {
+            int personaId = Int32.Parse(_userManager.GetUserId(User));
+
             if (id == null || _context.Clientes == null)
             {
                 return NotFound();
@@ -43,12 +49,17 @@ namespace RESERVA_C.Controllers
             {
                 return NotFound();
             }
+            // Aca chequeamos que el usuario este entrando al Details de su propio perfil y no al de un tercero.
+            if (personaId != id && User.IsInRole("ClienteRol"))
+            {
+                return RedirectToAction("Index", "Home", new { mensaje = "Acceso Denegado" });
+            }
 
             return View(cliente);
-        }
+        }       
 
         // GET: Clientes/Create
-        [Authorize(Roles = "EmpleadoRol")]
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public IActionResult Create()
         {
             return View();
@@ -59,7 +70,7 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "EmpleadoRol")]
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,Password,Email")] Cliente cliente)
         {
             cliente.UserName = cliente.Email;
@@ -73,7 +84,8 @@ namespace RESERVA_C.Controllers
             return View(cliente);
         }
 
-        // GET: Clientes/Edit/5
+        // GET: Clientes/Edit/5       
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Clientes == null)
@@ -102,6 +114,7 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Email")] Cliente updatedCliente)
         {
             {
@@ -144,6 +157,7 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Clientes/Delete/5
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Clientes == null)
@@ -164,6 +178,7 @@ namespace RESERVA_C.Controllers
         // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Clientes == null)
@@ -179,7 +194,7 @@ namespace RESERVA_C.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         private bool ClienteExists(int id)
         {
           return _context.Clientes.Any(e => e.Id == id);
