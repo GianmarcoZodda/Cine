@@ -27,6 +27,12 @@ namespace RESERVA_C.Controllers
         {
             CrearRoles().Wait();
 
+            if (!_context.Personas.Any())
+            {
+                this.AddAdmin().Wait();
+            }
+            
+
             if (!_context.Clientes.Any())
             {
                 this.AddClientes().Wait();
@@ -74,9 +80,11 @@ namespace RESERVA_C.Controllers
         {
            Rol rolcliente = new Rol() { Name = "ClienteRol"};
            Rol rolempleado = new Rol() { Name = "EmpleadoRol" };
+           Rol roladmin = new Rol() { Name = "AdminRol" };
 
             await _roleManager.CreateAsync(rolcliente);
             await _roleManager.CreateAsync(rolempleado);
+            await _roleManager.CreateAsync(roladmin);
         }
 
         public IActionResult Remove()
@@ -94,8 +102,8 @@ namespace RESERVA_C.Controllers
                 DNI = 44211766,
                 Telefono = 100000001,
                 Direccion = "san martin",
-                UserName = "zoddagj@gmail.com",
-                Email = "zoddagj@gmail.com",
+                UserName = "cliente1@ort.edu.ar",
+                Email = "cliente1@ort.edu.ar",
                 FechaAlta = DateTime.Now
             };
             await _userManager.CreateAsync(cliente1, "Password1!");
@@ -107,8 +115,8 @@ namespace RESERVA_C.Controllers
                 DNI = 33211766,
                 Telefono = 100000011,
                 Direccion = "Devoto",
-                UserName = "carlostevez@gmail.com",
-                Email = "carlostevez@gmail.com",
+                UserName = "cliente2@ort.edu.ar",
+                Email = "cliente2@ort.edu.ar",
                 FechaAlta = DateTime.Now
             };
             await _userManager.CreateAsync(cliente2, "Password1!");
@@ -120,8 +128,8 @@ namespace RESERVA_C.Controllers
                 DNI = 77665544,
                 Telefono = 100004455,
                 Direccion = "Belgrano",
-                UserName = "eduardomartinez@gmail.com",
-                Email = "eduardomartinez@gmail.com",
+                UserName = "cliente3@ort.edu.ar",
+                Email = "cliente3@ort.edu.ar",
                 FechaAlta = DateTime.Now
             };
             await _userManager.CreateAsync(cliente3, "Password1!");
@@ -133,8 +141,8 @@ namespace RESERVA_C.Controllers
                 DNI = 88993322,
                 Telefono = 100005566,
                 Direccion = "Caballito",
-                UserName = "analopez@gmail.com",
-                Email = "analopez@gmail.com",
+                UserName = "cliente4@ort.edu.ar",
+                Email = "cliente4@ort.edu.ar",
                 FechaAlta = DateTime.Now
             };
             await _userManager.CreateAsync(cliente4, "Password1!");
@@ -146,8 +154,8 @@ namespace RESERVA_C.Controllers
                 DNI = 11223344,
                 Telefono = 100006677,
                 Direccion = "Villa Urquiza",
-                UserName = "luisrodriguez@gmail.com",
-                Email = "luisrodriguez@gmail.com",
+                UserName = "cliente5@ort.edu.ar",
+                Email = "cliente5@ort.edu.ar",
                 FechaAlta = DateTime.Now
             };
             await _userManager.CreateAsync(cliente5, "Password1!");
@@ -162,8 +170,8 @@ namespace RESERVA_C.Controllers
                 DNI = 43035648,
                 Telefono = 100000001,
                 Direccion = "Montecastro",
-                UserName = "nahueze@gmail.com",
-                Email = "nahueze@gmail.com",
+                UserName = "empleado1@ort.edu.ar",
+                Email = "empleado1@ort.edu.ar",
                 FechaAlta = DateTime.Now,
                 Legajo = Generadores.GetNewLegajo(5)
             };
@@ -176,8 +184,8 @@ namespace RESERVA_C.Controllers
                 DNI = 39781234,
                 Telefono = 200000002,
                 Direccion = "Recoleta",
-                UserName = "fernandosanchez@gmail.com",
-                Email = "fernandosanchez@gmail.com",
+                UserName = "empleado2@ort.edu.ar",
+                Email = "empleado2@ort.edu.ar",
                 FechaAlta = DateTime.Now,
                 Legajo = Generadores.GetNewLegajo(5)
             };
@@ -191,8 +199,8 @@ namespace RESERVA_C.Controllers
                 DNI = 65432198,
                 Telefono = 200000003,
                 Direccion = "Devoto",
-                UserName = "lorenafernandez@gmail.com",
-                Email = "lorenafernandez@gmail.com",
+                UserName = "empleado3@ort.edu.ar",
+                Email = "empleado3@ort.edu.ar",
                 FechaAlta = DateTime.Now,
                 Legajo = Generadores.GetNewLegajo(5)
             };
@@ -206,8 +214,8 @@ namespace RESERVA_C.Controllers
                 DNI = 98123456,
                 Telefono = 200000004,
                 Direccion = "Montecastro",
-                UserName = "sergiogarcia@gmail.com",
-                Email = "sergiogarcia@gmail.com",
+                UserName = "empleado4@ort.edu.ar",
+                Email = "empleado4@ort.edu.ar",
                 FechaAlta = DateTime.Now,
                 Legajo = Generadores.GetNewLegajo(5)
             };
@@ -221,8 +229,8 @@ namespace RESERVA_C.Controllers
                 DNI = 75648912,
                 Telefono = 200000005,
                 Direccion = "Villa Urquiza",
-                UserName = "anarodriguez@gmail.com",
-                Email = "anarodriguez@gmail.com",
+                UserName = "empleado5@ort.edu.ar",
+                Email = "empleado5@ort.edu.ar",
                 FechaAlta = DateTime.Now,
                 Legajo = Generadores.GetNewLegajo(5)
             };
@@ -580,6 +588,22 @@ namespace RESERVA_C.Controllers
                 clienteId = cliente.Id;
             }
             return clienteId;
+        }
+        private async Task AddAdmin()
+        {
+            Persona admin = new Persona()
+            {
+                Nombre = "Mariano",
+                Apellido = "Longo",
+                DNI = 11111111,
+                Telefono = 000000001,
+                Direccion = "Belgrano",
+                UserName = "admin@ort.edu.ar",
+                Email = "admin@ort.edu.ar",
+                FechaAlta = DateTime.Now,
+            };
+            await _userManager.CreateAsync(admin, "Password1!");
+            await _userManager.AddToRoleAsync(admin, "AdminRol");
         }
     }
 }
