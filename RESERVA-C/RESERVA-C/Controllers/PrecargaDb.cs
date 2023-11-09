@@ -87,7 +87,7 @@ namespace RESERVA_C.Controllers
         }
         private async Task AddClientes()
         {
-            Persona cliente1 = new Cliente()
+            Cliente cliente1 = new Cliente()
             {
                 Nombre = "Gianmarco",
                 Apellido = "Zodda",
@@ -100,10 +100,62 @@ namespace RESERVA_C.Controllers
             };
             await _userManager.CreateAsync(cliente1, "Password1!");
             await _userManager.AddToRoleAsync(cliente1, "ClienteRol");
+            Cliente cliente2 = new Cliente()
+            {
+                Nombre = "Carlos",
+                Apellido = "Tevez",
+                DNI = 33211766,
+                Telefono = 100000011,
+                Direccion = "Devoto",
+                UserName = "carlostevez@gmail.com",
+                Email = "carlostevez@gmail.com",
+                FechaAlta = DateTime.Now
+            };
+            await _userManager.CreateAsync(cliente2, "Password1!");
+            await _userManager.AddToRoleAsync(cliente2, "ClienteRol");
+            Cliente cliente3 = new Cliente()
+            {
+                Nombre = "Eduardo",
+                Apellido = "Martínez",
+                DNI = 77665544,
+                Telefono = 100004455,
+                Direccion = "Belgrano",
+                UserName = "eduardomartinez@gmail.com",
+                Email = "eduardomartinez@gmail.com",
+                FechaAlta = DateTime.Now
+            };
+            await _userManager.CreateAsync(cliente3, "Password1!");
+            await _userManager.AddToRoleAsync(cliente3, "ClienteRol");
+            Cliente cliente4 = new Cliente()
+            {
+                Nombre = "Ana",
+                Apellido = "López",
+                DNI = 88993322,
+                Telefono = 100005566,
+                Direccion = "Caballito",
+                UserName = "analopez@gmail.com",
+                Email = "analopez@gmail.com",
+                FechaAlta = DateTime.Now
+            };
+            await _userManager.CreateAsync(cliente4, "Password1!");
+            await _userManager.AddToRoleAsync(cliente4, "ClienteRol");
+            Cliente cliente5 = new Cliente()
+            {
+                Nombre = "Luis",
+                Apellido = "Rodríguez",
+                DNI = 11223344,
+                Telefono = 100006677,
+                Direccion = "Villa Urquiza",
+                UserName = "luisrodriguez@gmail.com",
+                Email = "luisrodriguez@gmail.com",
+                FechaAlta = DateTime.Now
+            };
+            await _userManager.CreateAsync(cliente5, "Password1!");
+            await _userManager.AddToRoleAsync(cliente5, "ClienteRol");
         }
         private async Task AddEmpleados()
         {
-            Persona empleado1 = new Empleado()
+            Empleado empleado1 = new Empleado()
             {
                 Nombre = "Nahuel",
                 Apellido = "David",
@@ -117,14 +169,101 @@ namespace RESERVA_C.Controllers
             };
             await _userManager.CreateAsync(empleado1, "Password1!");
             await _userManager.AddToRoleAsync(empleado1, "EmpleadoRol");
+            Empleado empleado2 = new Empleado()
+            {
+                Nombre = "Fernando",
+                Apellido = "Sánchez",
+                DNI = 39781234,
+                Telefono = 200000002,
+                Direccion = "Recoleta",
+                UserName = "fernandosanchez@gmail.com",
+                Email = "fernandosanchez@gmail.com",
+                FechaAlta = DateTime.Now,
+                Legajo = Generadores.GetNewLegajo(5)
+            };
+            await _userManager.CreateAsync(empleado2, "Password1!");
+            await _userManager.AddToRoleAsync(empleado2, "EmpleadoRol");
+
+            Empleado empleado3 = new Empleado()
+            {
+                Nombre = "Lorena",
+                Apellido = "Fernández",
+                DNI = 65432198,
+                Telefono = 200000003,
+                Direccion = "Devoto",
+                UserName = "lorenafernandez@gmail.com",
+                Email = "lorenafernandez@gmail.com",
+                FechaAlta = DateTime.Now,
+                Legajo = Generadores.GetNewLegajo(5)
+            };
+            await _userManager.CreateAsync(empleado3, "Password1!");
+            await _userManager.AddToRoleAsync(empleado3, "EmpleadoRol");
+
+            Empleado empleado4 = new Empleado()
+            {
+                Nombre = "Sergio",
+                Apellido = "García",
+                DNI = 98123456,
+                Telefono = 200000004,
+                Direccion = "Montecastro",
+                UserName = "sergiogarcia@gmail.com",
+                Email = "sergiogarcia@gmail.com",
+                FechaAlta = DateTime.Now,
+                Legajo = Generadores.GetNewLegajo(5)
+            };
+            await _userManager.CreateAsync(empleado4, "Password1!");
+            await _userManager.AddToRoleAsync(empleado4, "EmpleadoRol");
+
+            Empleado empleado5 = new Empleado()
+            {
+                Nombre = "Ana",
+                Apellido = "Rodríguez",
+                DNI = 75648912,
+                Telefono = 200000005,
+                Direccion = "Villa Urquiza",
+                UserName = "anarodriguez@gmail.com",
+                Email = "anarodriguez@gmail.com",
+                FechaAlta = DateTime.Now,
+                Legajo = Generadores.GetNewLegajo(5)
+            };
+            await _userManager.CreateAsync(empleado5, "Password1!");
+            await _userManager.AddToRoleAsync(empleado5, "EmpleadoRol");
         }
         private void AddGeneros() 
         {
-            Genero genero = new Genero()
+            Genero genero1 = new Genero()
             {
                 Nombre = "Ciencia Ficcion"
             };
-            _context.Generos.Add(genero);
+            _context.Generos.Add(genero1);
+            _context.SaveChanges();
+
+            Genero genero2 = new Genero()
+            {
+                Nombre = "Misterio"
+            };
+            _context.Generos.Add(genero2);
+            _context.SaveChanges();
+
+            Genero genero3 = new Genero()
+            {
+                Nombre = "Romance"
+            };
+            _context.Generos.Add(genero3);
+            _context.SaveChanges();
+
+            Genero genero4 = new Genero()
+            {
+                Nombre = "Aventura"
+            };
+            _context.Generos.Add(genero4);
+            _context.SaveChanges();
+
+            Genero genero5 = new Genero()
+            {
+                Nombre = "Historia"
+            };
+            _context.Generos.Add(genero5);
             _context.SaveChanges();
 
         }
@@ -139,6 +278,46 @@ namespace RESERVA_C.Controllers
                 GeneroId = BuscarGenero("Ciencia Ficcion")
             };
             _context.Peliculas.Add(pelicula);
+            _context.SaveChanges();
+
+            Pelicula pelicula2 = new Pelicula()
+            {
+                FechaLanzamiento = new DateTime(2010, 08, 25),
+                Titulo = "El Enigma del Candelabro",
+                Descripcion = "Un misterioso asesinato en una mansión.",
+                GeneroId = BuscarGenero("Misterio")
+            };
+            _context.Peliculas.Add(pelicula2);
+            _context.SaveChanges();
+
+            Pelicula pelicula3 = new Pelicula()
+            {
+                FechaLanzamiento = new DateTime(2015, 12, 10),
+                Titulo = "Amor en París",
+                Descripcion = "Una historia de amor en la ciudad de la luz.",
+                GeneroId = BuscarGenero("Romance")
+            };
+            _context.Peliculas.Add(pelicula3);
+            _context.SaveChanges();
+
+            Pelicula pelicula4 = new Pelicula()
+            {
+                FechaLanzamiento = new DateTime(2018, 06, 30),
+                Titulo = "La Búsqueda del Tesoro Perdido",
+                Descripcion = "Aventuras en busca de un tesoro oculto.",
+                GeneroId = BuscarGenero("Aventura")
+            };
+            _context.Peliculas.Add(pelicula4);
+            _context.SaveChanges();
+
+            Pelicula pelicula5 = new Pelicula()
+            {
+                FechaLanzamiento = new DateTime(2022, 03, 15),
+                Titulo = "La Historia Olvidada",
+                Descripcion = "Una épica saga histórica.",
+                GeneroId = BuscarGenero("Historia")
+            };
+            _context.Peliculas.Add(pelicula5);
             _context.SaveChanges();
         }
 
@@ -161,6 +340,38 @@ namespace RESERVA_C.Controllers
             };
             _context.TipoSalas.Add(tipoSala1);
             _context.SaveChanges();
+            TipoSala tipoSala2 = new TipoSala()
+            {
+                Nombre = "IMAX",
+                Precio = 60
+            };
+
+            _context.TipoSalas.Add(tipoSala2);
+            _context.SaveChanges();
+
+            TipoSala tipoSala3 = new TipoSala()
+            {
+                Nombre = "VIP",
+                Precio = 70
+            };
+            _context.TipoSalas.Add(tipoSala3);
+            _context.SaveChanges();
+
+            TipoSala tipoSala4 = new TipoSala()
+            {
+                Nombre = "4D",
+                Precio = 75
+            };
+            _context.TipoSalas.Add(tipoSala4);
+            _context.SaveChanges();
+
+            TipoSala tipoSala5 = new TipoSala()
+            {
+                Nombre = "Estándar",
+                Precio = 40
+            };
+            _context.TipoSalas.Add(tipoSala5);
+            _context.SaveChanges();
         }
 
         private void AddSalas()
@@ -172,6 +383,42 @@ namespace RESERVA_C.Controllers
                 TipoSalaId = BuscarTipoSala("3D"),
             };
             _context.Salas.Add(sala1);
+            _context.SaveChanges();
+
+            Sala sala2 = new Sala()
+            {
+                Numero = 13,
+                CapacidadButacas = 120,
+                TipoSalaId = BuscarTipoSala("IMAX"),
+            };
+            _context.Salas.Add(sala2);
+            _context.SaveChanges();
+
+            Sala sala3 = new Sala()
+            {
+                Numero = 14,
+                CapacidadButacas = 80,
+                TipoSalaId = BuscarTipoSala("VIP"),
+            };
+            _context.Salas.Add(sala3);
+            _context.SaveChanges();
+
+            Sala sala4 = new Sala()
+            {
+                Numero = 15,
+                CapacidadButacas = 150,
+                TipoSalaId = BuscarTipoSala("4D"),
+            };
+            _context.Salas.Add(sala4);
+            _context.SaveChanges();
+
+            Sala sala5 = new Sala()
+            {
+                Numero = 16,
+                CapacidadButacas = 90,
+                TipoSalaId = BuscarTipoSala("Estándar"),
+            };
+            _context.Salas.Add(sala5);
             _context.SaveChanges();
         }
         private int BuscarTipoSala(string nombre)
@@ -195,6 +442,46 @@ namespace RESERVA_C.Controllers
                 SalaId = BuscarSala(12)
             };
             _context.Funciones.Add(funcion1);
+            _context.SaveChanges();
+
+            Funcion funcion2 = new Funcion()
+            {
+                FechaHora = new DateTime(2023, 12, 05, 14, 30, 00),
+                Descripcion = "Gran aventura en alta mar",
+                PeliculaId = BuscarPelicula("El Enigma del Candelabro"),
+                SalaId = BuscarSala(13)
+            };
+            _context.Funciones.Add(funcion2);
+            _context.SaveChanges();
+
+            Funcion funcion3 = new Funcion()
+            {
+                FechaHora = new DateTime(2023, 12, 06, 18, 15, 00),
+                Descripcion = "Romance en París",
+                PeliculaId = BuscarPelicula("Amor en París"),
+                SalaId = BuscarSala(14)
+            };
+            _context.Funciones.Add(funcion3);
+            _context.SaveChanges();
+
+            Funcion funcion4 = new Funcion()
+            {
+                FechaHora = new DateTime(2023, 12, 07, 20, 45, 00),
+                Descripcion = "La búsqueda del tesoro perdido",
+                PeliculaId = BuscarPelicula("La Búsqueda del Tesoro Perdido"),
+                SalaId = BuscarSala(15)
+            };
+            _context.Funciones.Add(funcion4);
+            _context.SaveChanges();
+
+            Funcion funcion5 = new Funcion()
+            {
+                FechaHora = new DateTime(2023, 12, 08, 16, 00, 00),
+                Descripcion = "Épica historia del pasado",
+                PeliculaId = BuscarPelicula("La Historia Olvidada"),
+                SalaId = BuscarSala(16)
+            };
+            _context.Funciones.Add(funcion5);
             _context.SaveChanges();
         }
 
@@ -230,6 +517,46 @@ namespace RESERVA_C.Controllers
              FuncionId = BuscarFuncion("Funcion unica e inigualable"),
             };
             _context.Reservas.Add(reserva1);
+            _context.SaveChanges();
+
+            Reserva reserva2 = new Reserva()
+            {
+                CantidadButacas = 3,
+                FechaAlta = DateTime.Now,
+                ClienteId = BuscarCliente(33211766),
+                FuncionId = BuscarFuncion("Gran aventura en alta mar"),
+            };
+            _context.Reservas.Add(reserva2);
+            _context.SaveChanges();
+
+            Reserva reserva3 = new Reserva()
+            {
+                CantidadButacas = 4,
+                FechaAlta = DateTime.Now,
+                ClienteId = BuscarCliente(77665544),
+                FuncionId = BuscarFuncion("Romance en París"),
+            };
+            _context.Reservas.Add(reserva3);
+            _context.SaveChanges();
+
+            Reserva reserva4 = new Reserva()
+            {
+                CantidadButacas = 2,
+                FechaAlta = DateTime.Now,
+                ClienteId = BuscarCliente(88993322),
+                FuncionId = BuscarFuncion("La búsqueda del tesoro perdido"),
+            };
+            _context.Reservas.Add(reserva4);
+            _context.SaveChanges();
+
+            Reserva reserva5 = new Reserva()
+            {
+                CantidadButacas = 5,
+                FechaAlta = DateTime.Now,
+                ClienteId = BuscarCliente(11223344),
+                FuncionId = BuscarFuncion("Épica historia del pasado"),
+            };
+            _context.Reservas.Add(reserva5);
             _context.SaveChanges();
         }
 
