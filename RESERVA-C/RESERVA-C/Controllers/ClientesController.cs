@@ -25,7 +25,7 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Clientes
-        [Authorize(Roles = "AdminRol, EmpleadoRol")]        
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> Index()
         {
             var usuario = User.Claims.FirstOrDefault();
@@ -54,9 +54,13 @@ namespace RESERVA_C.Controllers
             {
                 return RedirectToAction("Index", "Home", new { mensaje = "Acceso Denegado" });
             }
+            else
+            {
+                return RedirectToAction("Edit", "Cliente", new { id = personaId });
+            }
 
-            return View(cliente);
-        }       
+
+        }
 
         // GET: Clientes/Create
         [Authorize(Roles = "AdminRol, EmpleadoRol")]
@@ -85,13 +89,30 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Clientes/Edit/5       
-        [Authorize(Roles = "AdminRol, EmpleadoRol")]
+        [Authorize(Roles = "AdminRol, EmpleadoRol, ClienteRol")]
         public async Task<IActionResult> Edit(int? id)
         {
+            int usuarioId = Int32.Parse(_userManager.GetUserId(User));
+
             if (id == null || _context.Clientes == null)
             {
-                return NotFound();
+                id = usuarioId;
             }
+
+            if (User.IsInRole("ClienteRol"))
+            {
+                if (id != null && usuarioId != id)
+                {
+                    //atrevido
+                    return RedirectToAction("Edit", "Clientes", new { id = usuarioId });
+                }
+
+            }
+
+
+
+
+
 
             var cliente = await _context.Clientes.FindAsync(id);
             if (cliente == null)
@@ -114,7 +135,7 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "AdminRol, EmpleadoRol")]
+        [Authorize(Roles = "AdminRol, EmpleadoRol, ClienteRol")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Email")] Cliente updatedCliente)
         {
             {
@@ -190,14 +211,14 @@ namespace RESERVA_C.Controllers
             {
                 _context.Clientes.Remove(cliente);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         [Authorize(Roles = "AdminRol, EmpleadoRol")]
         private bool ClienteExists(int id)
         {
-          return _context.Clientes.Any(e => e.Id == id);
+            return _context.Clientes.Any(e => e.Id == id);
         }
     }
 }
