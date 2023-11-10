@@ -109,11 +109,6 @@ namespace RESERVA_C.Controllers
 
             }
 
-
-
-
-
-
             var cliente = await _context.Clientes.FindAsync(id);
             if (cliente == null)
             {
@@ -136,7 +131,7 @@ namespace RESERVA_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "AdminRol, EmpleadoRol, ClienteRol")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Email")] Cliente updatedCliente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Telefono,Direccion")] Cliente updatedCliente)
         {
             {
                 if (id != updatedCliente.Id)
@@ -152,11 +147,14 @@ namespace RESERVA_C.Controllers
                         {
                             return NotFound();
                         }
-                        originalCliente.Nombre = updatedCliente.Nombre;
-                        originalCliente.Apellido = updatedCliente.Apellido;
-                        originalCliente.DNI = updatedCliente.DNI;
+                        originalCliente.Nombre = originalCliente.Nombre;
+                        originalCliente.Apellido = originalCliente.Apellido;
+                        originalCliente.DNI = originalCliente.DNI;
                         originalCliente.Telefono = updatedCliente.Telefono;
                         originalCliente.Direccion = updatedCliente.Direccion;
+                        originalCliente.UserName = originalCliente.Email;
+                        originalCliente.Password = originalCliente.Password;
+                        originalCliente.Email = originalCliente.Email;
                         _context.Update(originalCliente);
                         await _context.SaveChangesAsync();
                     }
@@ -220,5 +218,97 @@ namespace RESERVA_C.Controllers
         {
             return _context.Clientes.Any(e => e.Id == id);
         }
+
+
+
+        //registro
+
+        [Authorize(Roles = "AdminRol, EmpleadoRol, ClienteRol")]
+        public async Task<IActionResult> EditRegistro(int? id)
+        {
+            int usuarioId = Int32.Parse(_userManager.GetUserId(User));
+
+            if (id == null || _context.Clientes == null)
+            {
+                id = usuarioId;
+            }
+
+            if (User.IsInRole("ClienteRol"))
+            {
+                if (id != null && usuarioId != id)
+                {
+                    //atrevido
+                    return RedirectToAction("Edit", "Clientes", new { id = usuarioId });
+                }
+
+            }
+
+            var cliente = await _context.Clientes.FindAsync(id);
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+
+            string username = User.Identity.Name;
+
+            if (username.ToUpper().Equals(cliente.NormalizedEmail))
+            {
+                return View(cliente);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Clientes/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "AdminRol, EmpleadoRol, ClienteRol")]
+        public async Task<IActionResult> EditRegistro(int id, [Bind("Id,Apellido,DNI,Telefono,Direccion")] Cliente updatedCliente)
+        {
+            {
+                if (id != updatedCliente.Id)
+                {
+                    return NotFound();
+                }
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        var originalCliente = await _context.Clientes.FirstOrDefaultAsync(p => p.Id == id);
+                        if (originalCliente == null)
+                        {
+                            return NotFound();
+                        }
+                        originalCliente.Nombre = originalCliente.Nombre;
+                        originalCliente.Apellido = updatedCliente.Apellido;
+                        originalCliente.DNI = updatedCliente.DNI;
+                        originalCliente.Telefono = updatedCliente.Telefono;
+                        originalCliente.Direccion = updatedCliente.Direccion;
+                        originalCliente.Email = originalCliente.Email;
+                        originalCliente.UserName = originalCliente.Email;
+                        originalCliente.Password = originalCliente.Password;
+                        _context.Update(originalCliente);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!ClienteExists(updatedCliente.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(updatedCliente);
+            }
+        }
+
+
     }
 }

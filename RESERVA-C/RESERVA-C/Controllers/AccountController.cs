@@ -46,7 +46,7 @@ namespace RESERVA_C.Controllers
                 {
                     var result = await _userManager.AddToRoleAsync(cliente, "ClienteRol");
                     await _signInManager.SignInAsync(cliente, isPersistent: false);
-                    return RedirectToAction("Edit", "Clientes", new { id = cliente.Id });
+                    return RedirectToAction("EditRegistro", "Clientes", new { id = cliente.Id });
                     //if (result.Succeeded)
                     //{
                     //    return RedirectToAction("Edit", "Clientes", new { id = cliente.Id });

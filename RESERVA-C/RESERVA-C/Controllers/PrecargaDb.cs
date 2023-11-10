@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RESERVA_C.Data;
 using RESERVA_C.Helpers;
 using RESERVA_C.Models;
+using System.Collections.Generic;
 
 namespace RESERVA_C.Controllers
 {
@@ -283,7 +284,8 @@ namespace RESERVA_C.Controllers
                 FechaLanzamiento = new DateTime(2006,04,14),
                 Titulo = "Piratas del Caribe",
                 Descripcion = "Aparece Jack Sparrow y se pelea con el que tiene la pata de palo",
-                GeneroId = BuscarGenero("Ciencia Ficcion")
+                GeneroId = BuscarGenero("Ciencia Ficcion"),
+                //Funciones = agregarFunciones("Piratas del Caribe")
             };
             _context.Peliculas.Add(pelicula);
             _context.SaveChanges();
@@ -440,6 +442,20 @@ namespace RESERVA_C.Controllers
             return tipoSalaId;
         }
 
+        //private List<Funcion> agregarFunciones(string nombrePeli)
+        //{
+        //    List <Funcion> funcionesADevolver = new List<Funcion>();
+
+        //    foreach (Funcion funcion in _context.Funciones)
+        //    {
+        //        if (funcion.Pelicula.Titulo.Equals("Piratas del Caribe"))
+        //        {
+        //            funcionesADevolver.Add(funcion);
+        //        }
+        //    }
+        //    return funcionesADevolver;
+        //}
+
         private void AddFunciones()
         {
             Funcion funcion1 = new Funcion()
@@ -447,7 +463,8 @@ namespace RESERVA_C.Controllers
                 FechaHora = new DateTime(2023, 11, 04, 12, 50, 00),
                 Descripcion = "Funcion unica e inigualable",
                 PeliculaId = BuscarPelicula("Piratas del Caribe"),
-                SalaId = BuscarSala(12)
+                SalaId = BuscarSala(12),
+                Confirmada = true
             };
             _context.Funciones.Add(funcion1);
             _context.SaveChanges();

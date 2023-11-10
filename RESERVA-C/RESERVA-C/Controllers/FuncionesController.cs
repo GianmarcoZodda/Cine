@@ -21,16 +21,78 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Funciones
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
+            List<FuncionIndexVM> funcionesAMostrar = new List<FuncionIndexVM>();
             //var reservaContext = _context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala);
             IQueryable<Funcion> funcion = _context.Funciones
                    .Include(f => f.Pelicula)
                    .Include(f => f.Sala)
                    .Include(f => f.Reservas);
+            if (id.HasValue)
+            {
+                funcion = funcion.Where(f => f.Pelicula.Id == id);
+            }
             List<FuncionIndexVM> funcionesIndexVM = CalcularButacasDisponibles(funcion.ToList());
-            return View(funcionesIndexVM);
+
+            foreach (var actual in funcionesIndexVM)
+            {
+                if (actual.ButacasDisponibles > 0 && actual.Confirmada)
+                {
+                    funcionesAMostrar.Add(actual);
+                }
+            }
+
+            if (funcionesAMostrar.Any())
+            {
+                return View(funcionesAMostrar);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home", new { mensaje = "no quedan funciones disponibles" });
+            }
+
         }
+
+        //public IActionResult Listar(int idPelicula)
+        //{
+        //    List<FuncionIndexVM> ListaFuncionesPorPeli = new List<FuncionIndexVM>();
+        //    ListaFuncionesPorPeli = this.ObtenerFuncionesPorId(idPelicula);
+
+        //    if (ListaFuncionesPorPeli.Count() == 0)
+        //    {
+        //        return RedirectToAction("Index", "Home", new { mensaje = "no quedan funciones disponibles" });
+        //    }
+
+        //    return View(ListaFuncionesPorPeli);
+        //}
+
+        //private List<FuncionIndexVM> ObtenerFuncionesPorId(int idPelicula)
+        //{
+        //    //recorre la lista de funciones en bd y agrega a una nueva lista las funciones q tengan = id, tengan + de 0 butacas disponibles y esten confirmadas
+        //    List<FuncionIndexVM> ListaFuncionesPorPeli = new List<FuncionIndexVM>();
+        //    foreach (var funcion in _context.Funciones)
+        //    {
+        //        if (funcion.PeliculaId == idPelicula && funcion.ButacasDisponibles > 0 && funcion.Confirmada)
+        //        {
+        //            FuncionIndexVM funcionIndexVM = new FuncionIndexVM()
+        //            {
+        //                Id = funcion.Id,
+        //                FechaHora = funcion.FechaHora,
+        //                Descripcion = funcion.Descripcion,
+        //                Confirmada = funcion.Confirmada,
+        //                Pelicula = funcion.Pelicula,
+        //                PeliculaId = funcion.PeliculaId,
+        //                Reservas = funcion.Reservas,
+        //                Sala = funcion.Sala,
+        //                SalaId = funcion.SalaId
+        //            };
+
+        //            ListaFuncionesPorPeli.Add(funcionIndexVM);
+        //        }
+        //    }
+        //    return ListaFuncionesPorPeli;
+        //}
 
         private List<FuncionIndexVM> CalcularButacasDisponibles(List<Funcion> funciones)
         {
