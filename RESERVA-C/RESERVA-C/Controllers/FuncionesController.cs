@@ -24,7 +24,6 @@ namespace RESERVA_C.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             List<FuncionIndexVM> funcionesAMostrar = new List<FuncionIndexVM>();
-            //var reservaContext = _context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala);
             IQueryable<Funcion> funcion = _context.Funciones
                    .Include(f => f.Pelicula)
                    .Include(f => f.Sala)

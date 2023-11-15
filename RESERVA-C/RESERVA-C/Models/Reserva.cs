@@ -16,8 +16,8 @@ public class Reserva
     public Funcion Funcion { get; set; }
 
     [Required(ErrorMessage = ErrorMsgs.Required)]
-        [Display(Name = "Fecha de Alta")]
-        public DateTime FechaAlta { get; set; }
+    [Display(Name = "Fecha de Alta")]
+    public DateTime FechaAlta { get; set; }
 
     [Required(ErrorMessage = ErrorMsgs.Required)]
     [Display(Name = "Cliente")]

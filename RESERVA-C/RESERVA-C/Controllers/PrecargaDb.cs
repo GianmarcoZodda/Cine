@@ -442,20 +442,6 @@ namespace RESERVA_C.Controllers
             return tipoSalaId;
         }
 
-        //private List<Funcion> agregarFunciones(string nombrePeli)
-        //{
-        //    List <Funcion> funcionesADevolver = new List<Funcion>();
-
-        //    foreach (Funcion funcion in _context.Funciones)
-        //    {
-        //        if (funcion.Pelicula.Titulo.Equals("Piratas del Caribe"))
-        //        {
-        //            funcionesADevolver.Add(funcion);
-        //        }
-        //    }
-        //    return funcionesADevolver;
-        //}
-
         private void AddFunciones()
         {
             Funcion funcion1 = new Funcion()

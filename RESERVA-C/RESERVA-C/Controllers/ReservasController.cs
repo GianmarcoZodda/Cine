@@ -2,27 +2,60 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using RESERVA_C.Data;
 using RESERVA_C.Models;
+using RESERVA_C.Models.ViewModels;
 
 namespace RESERVA_C.Controllers
 {
     public class ReservasController : Controller
     {
         private readonly ReservaContext _context;
+        private readonly UserManager<Persona> _userManager;
 
-        public ReservasController(ReservaContext context)
+        public ReservasController(ReservaContext context, UserManager<Persona> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Reservas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
             var reservaContext = _context.Reservas.Include(r => r.Cliente).Include(r => r.Funcion);
+            int usuarioId = Int32.Parse(_userManager.GetUserId(User));
+
+            if (User.IsInRole("ClienteRol"))
+            {
+                if (id != null && usuarioId != id)
+                {
+                    return RedirectToAction("Index", "Home", new {mensaje = "no puedes ver reservas de otros clientes" });
+                }
+
+                if (!id.HasValue)
+                {
+                    id = usuarioId;
+
+                    List<Reserva> misReservas = new List<Reserva>();
+
+                    foreach (Reserva r in reservaContext)
+                    {
+                        if (r.ClienteId == id)
+                        {
+                            misReservas.Add(r);
+                        }
+                    }
+                    return View(misReservas);
+                }
+                return RedirectToAction("Index", "Home", new { mensaje = "No Tienes Reservas" });
+
+            }
+
             return View(await reservaContext.ToListAsync());
         }
 
@@ -171,5 +204,55 @@ namespace RESERVA_C.Controllers
         {
           return _context.Reservas.Any(e => e.Id == id);
         }
+
+
+        //aca hago el cancelar reserva 
+
+        // GET: Reservas/Delete/5
+        public async Task<IActionResult> Cancelar(int? id)
+        {
+            if (id == null || _context.Reservas == null)
+            {
+                return NotFound();
+            }
+
+            var reserva = await _context.Reservas
+                .Include(r => r.Cliente)
+                .Include(r => r.Funcion)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (reserva == null)
+            {
+                return NotFound();
+            }
+
+            //debo validar que falten +24hs antes de que empiece
+            var diferencia = DateTime.Now - reserva.Funcion.Fecha;
+            if(diferencia.Hours < 24)
+            {
+                return RedirectToAction("Index", "Home", new {mensaje = "No puedes cancelar, la funcion es hoy"});
+            }
+
+            return View(reserva);
+        }
+
+        // POST: Reservas/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Cancelar(int id)
+        {
+            if (_context.Reservas == null)
+            {
+                return Problem("Entity set 'ReservaContext.Reservas'  is null.");
+            }
+            var reserva = await _context.Reservas.FindAsync(id);
+            if (reserva != null)
+            {
+                _context.Reservas.Remove(reserva);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
