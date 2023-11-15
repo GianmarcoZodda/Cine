@@ -49,6 +49,10 @@ namespace RESERVA_C.Controllers
             {
                 return NotFound();
             }
+            if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
+            {
+                return View(cliente);
+            }
             // Aca chequeamos que el usuario este entrando al Details de su propio perfil y no al de un tercero.
             if (personaId != id && User.IsInRole("ClienteRol"))
             {
@@ -131,7 +135,7 @@ namespace RESERVA_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "AdminRol, EmpleadoRol, ClienteRol")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Telefono,Direccion")] Cliente updatedCliente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Password,Email")] Cliente updatedCliente)
         {
             {
                 if (id != updatedCliente.Id)
@@ -147,14 +151,8 @@ namespace RESERVA_C.Controllers
                         {
                             return NotFound();
                         }
-                        originalCliente.Nombre = originalCliente.Nombre;
-                        originalCliente.Apellido = originalCliente.Apellido;
-                        originalCliente.DNI = originalCliente.DNI;
                         originalCliente.Telefono = updatedCliente.Telefono;
                         originalCliente.Direccion = updatedCliente.Direccion;
-                        originalCliente.UserName = originalCliente.Email;
-                        originalCliente.Password = originalCliente.Password;
-                        originalCliente.Email = originalCliente.Email;
                         _context.Update(originalCliente);
                         await _context.SaveChangesAsync();
                     }
@@ -169,7 +167,7 @@ namespace RESERVA_C.Controllers
                             throw;
                         }
                     }
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Home");
                 }
                 return View(updatedCliente);
             }
@@ -265,7 +263,7 @@ namespace RESERVA_C.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "AdminRol, EmpleadoRol, ClienteRol")]
-        public async Task<IActionResult> EditRegistro(int id, [Bind("Id,Apellido,DNI,Telefono,Direccion")] Cliente updatedCliente)
+        public async Task<IActionResult> EditRegistro(int id, [Bind("Id,Nombre,Apellido,DNI,Telefono,Direccion,UserName,Password,Email")] Cliente updatedCliente)
         {
             {
                 if (id != updatedCliente.Id)
@@ -281,14 +279,11 @@ namespace RESERVA_C.Controllers
                         {
                             return NotFound();
                         }
-                        originalCliente.Nombre = originalCliente.Nombre;
+                        originalCliente.FechaAlta = DateTime.Now;
                         originalCliente.Apellido = updatedCliente.Apellido;
                         originalCliente.DNI = updatedCliente.DNI;
                         originalCliente.Telefono = updatedCliente.Telefono;
                         originalCliente.Direccion = updatedCliente.Direccion;
-                        originalCliente.Email = originalCliente.Email;
-                        originalCliente.UserName = originalCliente.Email;
-                        originalCliente.Password = originalCliente.Password;
                         _context.Update(originalCliente);
                         await _context.SaveChangesAsync();
                     }
@@ -303,7 +298,7 @@ namespace RESERVA_C.Controllers
                             throw;
                         }
                     }
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Home");
                 }
                 return View(updatedCliente);
             }
