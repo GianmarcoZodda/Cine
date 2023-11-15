@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +15,12 @@ namespace RESERVA_C.Controllers
     public class ReservasController : Controller
     {
         private readonly ReservaContext _context;
+        private readonly UserManager<Persona> _userManager;
 
-        public ReservasController(ReservaContext context)
+        public ReservasController(ReservaContext context, UserManager<Persona> user)
         {
             _context = context;
+            _userManager = user;
         }
 
         // GET: Reservas
@@ -47,10 +51,22 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Reservas/Create
-        public IActionResult Create()
+        public IActionResult Create(int? funcionId)
         {
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido");
-            ViewData["FuncionId"] = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta");
+            if (User.IsInRole("AdminRol") || User.IsInRole("EmpleadoRol"))
+            {
+                ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido");
+            }
+            if (funcionId.HasValue)
+            {
+                ViewData["FuncionId"] = new SelectList(_context.Funciones.Where(f => f.Id == funcionId).Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta");
+            }
+            else
+            {
+                ViewData["FuncionId"] = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta");
+            }
+            // ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido");
+            // ViewData["FuncionId"] = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta");
             return View();
         }
 
@@ -59,10 +75,15 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FuncionId,FechaAlta,ClienteId,CantidadButacas")] Reserva reserva)
+        public async Task<IActionResult> Create(int? funcionId, [Bind("Id,FuncionId,FechaAlta,ClienteId,CantidadButacas")] Reserva reserva)
         {
             if (ModelState.IsValid)
             {
+                if (User.IsInRole("ClienteRol"))
+                {
+                    int clienteId = Int32.Parse(_userManager.GetUserId(User));
+                    reserva.ClienteId = clienteId;
+                }
                 reserva.FechaAlta = DateTime.Now;
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();

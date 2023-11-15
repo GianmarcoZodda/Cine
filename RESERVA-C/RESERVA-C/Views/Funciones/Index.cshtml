@@ -62,7 +62,7 @@
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     }
                    @*  //modificar, no me debe llevar al create, sino a otra vista similar que no me permita modificar la pelicula, el cliente y verifique la cantidad de butacas disponibles *@
-                    <a asp-controller="Reservas" asp-action="CreateWizard" asp-route-id="@item.Id">Reservar</a>
+                    @Html.ActionLink("Reservar", "Create", "Reservas", new { funcionId = item.Id }, null)
             </td>
         </tr>
 }
