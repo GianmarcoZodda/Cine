@@ -54,46 +54,6 @@ namespace RESERVA_C.Controllers
 
         }
 
-        //public IActionResult Listar(int idPelicula)
-        //{
-        //    List<FuncionIndexVM> ListaFuncionesPorPeli = new List<FuncionIndexVM>();
-        //    ListaFuncionesPorPeli = this.ObtenerFuncionesPorId(idPelicula);
-
-        //    if (ListaFuncionesPorPeli.Count() == 0)
-        //    {
-        //        return RedirectToAction("Index", "Home", new { mensaje = "no quedan funciones disponibles" });
-        //    }
-
-        //    return View(ListaFuncionesPorPeli);
-        //}
-
-        //private List<FuncionIndexVM> ObtenerFuncionesPorId(int idPelicula)
-        //{
-        //    //recorre la lista de funciones en bd y agrega a una nueva lista las funciones q tengan = id, tengan + de 0 butacas disponibles y esten confirmadas
-        //    List<FuncionIndexVM> ListaFuncionesPorPeli = new List<FuncionIndexVM>();
-        //    foreach (var funcion in _context.Funciones)
-        //    {
-        //        if (funcion.PeliculaId == idPelicula && funcion.ButacasDisponibles > 0 && funcion.Confirmada)
-        //        {
-        //            FuncionIndexVM funcionIndexVM = new FuncionIndexVM()
-        //            {
-        //                Id = funcion.Id,
-        //                FechaHora = funcion.FechaHora,
-        //                Descripcion = funcion.Descripcion,
-        //                Confirmada = funcion.Confirmada,
-        //                Pelicula = funcion.Pelicula,
-        //                PeliculaId = funcion.PeliculaId,
-        //                Reservas = funcion.Reservas,
-        //                Sala = funcion.Sala,
-        //                SalaId = funcion.SalaId
-        //            };
-
-        //            ListaFuncionesPorPeli.Add(funcionIndexVM);
-        //        }
-        //    }
-        //    return ListaFuncionesPorPeli;
-        //}
-
         private List<FuncionIndexVM> CalcularButacasDisponibles(List<Funcion> funciones)
         {
             List<FuncionIndexVM> lista = new List<FuncionIndexVM>();
