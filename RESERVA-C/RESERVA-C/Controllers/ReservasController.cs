@@ -51,7 +51,12 @@ namespace RESERVA_C.Controllers
                             misReservas.Add(r);
                         }
                     }
-                    return View(misReservas);
+
+                    if (misReservas.Any())
+                    {
+                        return View(misReservas);
+                    }
+                    
                 }
                 return RedirectToAction("Index", "Home", new { mensaje = "No Tienes Reservas" });
 
@@ -244,8 +249,8 @@ namespace RESERVA_C.Controllers
             }
 
             //debo validar que falten +24hs antes de que empiece
-            var diferencia = DateTime.Now - reserva.Funcion.Fecha;
-            if(diferencia.Hours < 24)
+            var diferencia = reserva.Funcion.FechaHora - DateTime.Now;
+            if (diferencia.Days < 1)
             {
                 return RedirectToAction("Index", "Home", new {mensaje = "No puedes cancelar, la funcion es hoy"});
             }

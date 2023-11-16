@@ -446,8 +446,8 @@ namespace RESERVA_C.Controllers
         {
             Funcion funcion1 = new Funcion()
             {
-                FechaHora = new DateTime(2023, 11, 04, 12, 50, 00),
-                Descripcion = "Funcion unica e inigualable",
+                FechaHora = new DateTime(2023, 12, 04, 12, 50, 00),
+                Descripcion = "Funcion de jack sparrow",
                 PeliculaId = BuscarPelicula("Piratas del Caribe"),
                 SalaId = BuscarSala(12),
                 Confirmada = true
