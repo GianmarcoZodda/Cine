@@ -20,17 +20,26 @@ namespace RESERVA_C.Controllers
             _context = context;
         }
 
+        //private void Ejemplo()
+        //{
+        //    var cant = _context.Funciones.Select(f => f.Reservas.Sum(r => r.CantidadButacas)).Where();
+        //    //buscar costo por tipo de sala
+
+        //}
+
+
         // GET: Funciones
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index(int? peliculaId)
         {
+            //Ejemplo();
             List<FuncionIndexVM> funcionesAMostrar = new List<FuncionIndexVM>();
             IQueryable<Funcion> funcion = _context.Funciones
                    .Include(f => f.Pelicula)
                    .Include(f => f.Sala)
                    .Include(f => f.Reservas);
-            if (id.HasValue)
+            if (peliculaId.HasValue)
             {
-                funcion = funcion.Where(f => f.Pelicula.Id == id);
+                funcion = funcion.Where(f => f.Pelicula.Id == peliculaId && f.Confirmada &&f.FechaHora >= DateTime.Now);
             }
             List<FuncionIndexVM> funcionesIndexVM = CalcularButacasDisponibles(funcion.ToList());
 

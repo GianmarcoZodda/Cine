@@ -12,10 +12,8 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FuncionId" class="control-label"></label>
-                <select asp-for="FuncionId" class ="form-control" asp-items="ViewBag.FuncionId"></select>
-            </div>
+            <input asp-for="FuncionId" hidden />
+    
             @if (signInManager.IsSignedIn(User))
             {
                 @if (User.IsInRole("AdminRol") || User.IsInRole("EmpleadoRol"))
