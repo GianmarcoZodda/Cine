@@ -110,7 +110,7 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? funcionId, [Bind("Id,FuncionId,FechaAlta,ClienteId,CantidadButacas")] Reserva reserva)
+        public async Task<IActionResult> Create(int? funcionId, [Bind("Id,FuncionId,FechaAlta,ClienteId,CantidadButacas,Activa")] Reserva reserva)
         {
             if (ModelState.IsValid)
             {

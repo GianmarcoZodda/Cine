@@ -446,7 +446,7 @@ namespace RESERVA_C.Controllers
         {
             Funcion funcion1 = new Funcion()
             {
-                FechaHora = new DateTime(2023, 12, 04, 12, 50, 00),
+                FechaHora = DateTime.Now.AddDays(3),
                 Descripcion = "Funcion de jack sparrow",
                 PeliculaId = BuscarPelicula("Piratas del Caribe"),
                 SalaId = BuscarSala(12),
@@ -457,40 +457,44 @@ namespace RESERVA_C.Controllers
 
             Funcion funcion2 = new Funcion()
             {
-                FechaHora = new DateTime(2023, 12, 05, 14, 30, 00),
+                FechaHora = DateTime.Now.AddDays(6),
                 Descripcion = "Gran aventura en alta mar",
                 PeliculaId = BuscarPelicula("El Enigma del Candelabro"),
-                SalaId = BuscarSala(13)
+                SalaId = BuscarSala(13),
+                Confirmada = true
             };
             _context.Funciones.Add(funcion2);
             _context.SaveChanges();
 
             Funcion funcion3 = new Funcion()
             {
-                FechaHora = new DateTime(2023, 12, 06, 18, 15, 00),
+                FechaHora = DateTime.Now.AddDays(2),
                 Descripcion = "Romance en París",
                 PeliculaId = BuscarPelicula("Amor en París"),
-                SalaId = BuscarSala(14)
+                SalaId = BuscarSala(14),
+                Confirmada = true
             };
             _context.Funciones.Add(funcion3);
             _context.SaveChanges();
 
             Funcion funcion4 = new Funcion()
             {
-                FechaHora = new DateTime(2023, 12, 07, 20, 45, 00),
+                FechaHora = DateTime.Now.AddDays(1),
                 Descripcion = "La búsqueda del tesoro perdido",
                 PeliculaId = BuscarPelicula("La Búsqueda del Tesoro Perdido"),
-                SalaId = BuscarSala(15)
+                SalaId = BuscarSala(15),
+                Confirmada = true
             };
             _context.Funciones.Add(funcion4);
             _context.SaveChanges();
 
             Funcion funcion5 = new Funcion()
             {
-                FechaHora = new DateTime(2023, 12, 08, 16, 00, 00),
+                FechaHora = DateTime.Now.AddDays(4),
                 Descripcion = "Épica historia del pasado",
                 PeliculaId = BuscarPelicula("La Historia Olvidada"),
-                SalaId = BuscarSala(16)
+                SalaId = BuscarSala(16),
+                Confirmada = true
             };
             _context.Funciones.Add(funcion5);
             _context.SaveChanges();

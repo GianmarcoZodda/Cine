@@ -29,6 +29,6 @@ public class Reserva
     [Display(Name = "Cantidad de Butacas")]//*nahuel* puse 50 como ejemplo
         public int CantidadButacas { get; set; }
 
-
-}
+        public bool Activa { get; set; } = true;
+    }
 }

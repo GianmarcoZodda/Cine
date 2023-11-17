@@ -32,14 +32,20 @@ namespace RESERVA_C.Controllers
         public async Task<IActionResult> Index(int? peliculaId)
         {
             //Ejemplo();
+            DateTime fechaActual = DateTime.Now;
+            DateTime fechaLimite = fechaActual.AddDays(7);
+
             List<FuncionIndexVM> funcionesAMostrar = new List<FuncionIndexVM>();
             IQueryable<Funcion> funcion = _context.Funciones
                    .Include(f => f.Pelicula)
                    .Include(f => f.Sala)
-                   .Include(f => f.Reservas);
+                   .Include(f => f.Reservas.Where(r => r.Activa));
+            if (User.IsInRole("ClienteRol")) {
+                funcion = funcion.Where(f => f.FechaHora >= fechaActual && f.FechaHora <= fechaLimite && f.Confirmada && f.FechaHora >= fechaActual);
+            }
             if (peliculaId.HasValue)
             {
-                funcion = funcion.Where(f => f.Pelicula.Id == peliculaId && f.Confirmada &&f.FechaHora >= DateTime.Now);
+                funcion = funcion.Where(f => f.Pelicula.Id == peliculaId);
             }
             List<FuncionIndexVM> funcionesIndexVM = CalcularButacasDisponibles(funcion.ToList());
 
