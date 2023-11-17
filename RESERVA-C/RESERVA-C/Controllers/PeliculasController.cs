@@ -20,10 +20,20 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Peliculas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? generoId)
         {
-            var reservaContext = _context.Peliculas.Include(p => p.Genero);
-            return View(await reservaContext.ToListAsync());
+            var generos = _context.Generos.ToList();
+
+            ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Nombre");
+
+            var peliculas = _context.Peliculas.ToList();
+
+            if (generoId.HasValue)
+            {
+                peliculas = peliculas.Where(p => p.GeneroId == generoId.Value).ToList();
+            }
+
+            return View(peliculas);
         }
 
         // GET: Peliculas/Details/5

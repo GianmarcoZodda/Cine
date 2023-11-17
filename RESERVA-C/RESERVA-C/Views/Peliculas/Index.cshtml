@@ -9,6 +9,14 @@
 <p>
     <a asp-action="Create">Add movie</a>
 </p>
+@using (Html.BeginForm("Index", "Peliculas"))
+{
+    <div class="form-group">
+        @Html.Label("Genero", null, new { @class = "control-label" })
+        @Html.DropDownList("generoId", ViewBag.Generos as SelectList, "Todos", new { @class = "form-control" })
+        <input type="submit" value="Filtrar" class="btn btn-primary" />
+    </div>
+}
 <table class="table">
     <thead>
         <tr>
