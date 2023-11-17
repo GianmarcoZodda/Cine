@@ -120,7 +120,10 @@ namespace RESERVA_C.Controllers
                     int clienteId = Int32.Parse(_userManager.GetUserId(User));
                     reserva.ClienteId = clienteId;
                 }
-                DesactivarReservasActivasParaCliente(reserva.ClienteId);
+                if (reserva.Activa)
+                {
+                    DesactivarReservasActivas(reserva.ClienteId);
+                }
                 reserva.FechaAlta = DateTime.Now;
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
@@ -130,9 +133,9 @@ namespace RESERVA_C.Controllers
             ViewData["FuncionId"] = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta", reserva.FuncionId);
             return View(reserva);
         }
-        private void DesactivarReservasActivasParaCliente(int? clienteId)
+        public void DesactivarReservasActivas(int? clienteId)
         {
-            var reservasActivas = _context.Reservas.Where(r => r.Activa).ToList();
+            var reservasActivas = _context.Reservas.Where(r => r.Activa && r.Funcion.FechaHora < DateTime.Now).Include(r => r.Funcion).ToList();
             if (clienteId.HasValue)
             {
                 reservasActivas = _context.Reservas.Where(r => r.ClienteId == clienteId && r.Activa).ToList();

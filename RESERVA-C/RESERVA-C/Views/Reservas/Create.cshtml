@@ -12,8 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="FuncionId" hidden />
-    
+
             @if (signInManager.IsSignedIn(User))
             {
                 @if (User.IsInRole("AdminRol") || User.IsInRole("EmpleadoRol"))
@@ -35,8 +34,12 @@
                         <select asp-for="ClienteId" class="form-control" asp-items="ViewBag.ClienteId"></select>
                     </div>
                 }
+                else
+                {
+                    <input asp-for="FuncionId" hidden />
+                }
             }
-            
+
             <div class="form-group">
                 <label asp-for="CantidadButacas" class="control-label"></label>
                 <input asp-for="CantidadButacas" class="form-control" />
@@ -54,5 +57,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
