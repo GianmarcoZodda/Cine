@@ -16,3 +16,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.navbar-brand{
+    background: url(img/logo2.jpg) no-repeat;
+    background-size: 40px 40px;
+    height: 40px;
+    width: 40px;
+    border-radius: 125px;
+    margin: 0px;
+}
