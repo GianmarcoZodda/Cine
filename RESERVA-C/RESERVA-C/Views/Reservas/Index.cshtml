@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.CantidadButacas)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Activa)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -36,6 +39,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CantidadButacas)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Activa)
+                </td>
             <td>
                     @if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
                     {
