@@ -8,7 +8,7 @@ namespace RESERVA_C.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [Range(1, 20, ErrorMessage = ErrorMsgs.MaxMin)]
+        [Range(1, 40, ErrorMessage = ErrorMsgs.MaxMin)]
         [Display(Name = "Numero de Sala")]
         public int Numero { get; set; }
 
