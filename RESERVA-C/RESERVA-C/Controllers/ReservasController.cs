@@ -26,11 +26,11 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Reservas
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index(int? id, int? funcionId)
         {
-            var reservaContext = _context.Reservas.Include(r => r.Cliente).Include(r => r.Funcion);
+            IQueryable<Reserva> reservaContext = _context.Reservas.Include(r => r.Cliente).Include(r => r.Funcion);
             int usuarioId = Int32.Parse(_userManager.GetUserId(User));
-
+            ViewData["FuncionId"] = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta");
             if (User.IsInRole("ClienteRol"))
             {
                 if (id != null && usuarioId != id)
@@ -61,7 +61,21 @@ namespace RESERVA_C.Controllers
                 return RedirectToAction("Index", "Home", new { mensaje = "No Tienes Reservas" });
 
             }
+            if (User.IsInRole("AdminRol") || User.IsInRole("EmpleadoRol"))
+            {
+                var funciones = _context.Funciones.ToList();
 
+                ViewBag.Funciones = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta");
+
+
+                if (funcionId.HasValue)
+                {
+                    reservaContext = reservaContext.Where(r => r.FuncionId == funcionId);
+                }
+
+                return View(await reservaContext.ToListAsync());
+
+            }
             return View(await reservaContext.ToListAsync());
         }
 
