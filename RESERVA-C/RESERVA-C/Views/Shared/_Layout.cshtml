@@ -31,7 +31,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="CerrarSesion">Cerrar Sesion</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="InformacionInstitucional">Informacion Institucional</a>
                             </li>
                             @if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
                             {
@@ -97,7 +97,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - RESERVA_C - <a asp-area="" asp-controller="PrecargaDb" asp-action="Seed" class="btn btn-primary">Precarga</a><a asp-area="" asp-controller="PrecargaDb" asp-action="Remove" class="btn btn-danger">Recrear</a>
+            &copy; 2023 - RESERVA_C - <a asp-area="" asp-controller="PrecargaDb" asp-action="Seed" class="btn btn-primary">Precarga</a><a asp-area="" asp-controller="PrecargaDb" asp-action="Remove" class="btn btn-danger">Recrear</a><a asp-area="" asp-controller="PrecargaDb" asp-action="Seed" class="btn btn-primary">Precarga</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

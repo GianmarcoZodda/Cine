@@ -20,7 +20,7 @@ namespace RESERVA_C.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult InformacionInstitucional()
         {
             return View();
         }
