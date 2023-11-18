@@ -69,6 +69,7 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> Create([Bind("Id,FechaLanzamiento,Titulo,Descripcion,Imagen,GeneroId")] Pelicula pelicula)
         {
             if (ModelState.IsValid)
@@ -82,6 +83,7 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Peliculas/Edit/5
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Peliculas == null)
@@ -103,6 +105,7 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FechaLanzamiento,Titulo,Descripcion,Imagen,GeneroId")] Pelicula pelicula)
         {
             if (id != pelicula.Id)
@@ -135,6 +138,7 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Peliculas/Delete/5
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Peliculas == null)
@@ -156,6 +160,7 @@ namespace RESERVA_C.Controllers
         // POST: Peliculas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Peliculas == null)

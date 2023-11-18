@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -51,7 +52,7 @@ namespace RESERVA_C.Controllers
 
             foreach (var actual in funcionesIndexVM)
             {
-                if (actual.ButacasDisponibles > 0 && actual.Confirmada)
+                if (actual.ButacasDisponibles > 0)
                 {
                     funcionesAMostrar.Add(actual);
                 }
@@ -138,6 +139,7 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Funciones/Create
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public IActionResult Create()
         {
             ViewData["PeliculaId"] = new SelectList(_context.Peliculas, "Id", "Titulo");
@@ -150,6 +152,7 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> Create([Bind("Id,FechaHora,Descripcion,Confirmada,PeliculaId,SalaId")] Funcion funcion)
         {
             if (ModelState.IsValid)
@@ -164,6 +167,7 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Funciones/Edit/5
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Funciones == null)
@@ -186,6 +190,7 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FechaHora,Descripcion,Confirmada,PeliculaId,SalaId")] Funcion funcion)
         {
             if (id != funcion.Id)
@@ -219,6 +224,7 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Funciones/Delete/5
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Funciones == null)
@@ -241,6 +247,7 @@ namespace RESERVA_C.Controllers
         // POST: Funciones/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "AdminRol, EmpleadoRol")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Funciones == null)
@@ -248,9 +255,14 @@ namespace RESERVA_C.Controllers
                 return Problem("Entity set 'ReservaContext.Funciones'  is null.");
             }
             var funcion = await _context.Funciones.FindAsync(id);
-            if (funcion != null)
+            //aca abajo, las reservas aparecen nulas, entonces se rompe
+            if (funcion != null && !funcion.Reservas.Any(r => r.Activa))
             {
                 _context.Funciones.Remove(funcion);
+            }
+            else 
+            {
+                return RedirectToAction("Index", "Home", new { mensaje = "no se puede eliminar la funcion" });
             }
             
             await _context.SaveChangesAsync();

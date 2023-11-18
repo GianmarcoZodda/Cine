@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using RESERVA_C.Models;
 
 namespace RESERVA_C.Controllers
 {
+    [Authorize(Roles = "AdminRol, EmpleadoRol")]
     public class GenerosController : Controller
     {
         private readonly ReservaContext _context;
