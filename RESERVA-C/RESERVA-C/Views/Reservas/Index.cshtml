@@ -6,11 +6,20 @@
 
 <h1>Index</h1>
 
-@if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
+@if (User.IsInRole("AdminRol") || User.IsInRole("EmpleadoRol"))
 {
-    <p>
+    <td>
         <a asp-action="Create">Create New</a>
-    </p>
+    </td>
+    @using (Html.BeginForm("Index", "Reservas"))
+    {
+        <div class="form-group">
+            @Html.Label("Función: ",null, new { @class = "control-label" })
+            @Html.DropDownList("funcionId", ViewBag.Funciones as SelectList, "Todas", new { @class = "form-control" })
+            <input type="submit" value="Filtrar" class="btn btn-primary" />
+        </div>
+    }
+
 }
 <table class="table">
     <thead>
@@ -34,7 +43,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Funcion.Descripcion)
+                @Html.DisplayFor(modelItem => item.Funcion.FuncionCompleta)
             </td>          
             <td>
                 @Html.DisplayFor(modelItem => item.Cliente.Apellido)
