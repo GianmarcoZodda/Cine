@@ -11,15 +11,6 @@
         <a asp-action="Create">Crear Pelicula</a>
     </p>
 }
-@*<form asp-controller="Peliculas" asp-action="Index">
-    <div class="form-group">
-        <label asp-for="GeneroId" class="control-label"></label>
-        <select asp-for="GeneroId" asp-items="ViewBag.GeneroId" class="form-control">
-            <option value="">Todos</option>
-        </select>
-        <button type="submit" class="btn btn-primary">Filtrar</button>
-    </div>
-</form>*@ @*SIGUE FALLANDO YA NO SE QUE HACER*@
 @using (Html.BeginForm("Index", "Peliculas"))
 {
     <div class="form-group">

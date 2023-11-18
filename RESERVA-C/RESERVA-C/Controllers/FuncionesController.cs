@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using RESERVA_C.Models.ViewModels;
 
 namespace RESERVA_C.Controllers
 {
+    [Authorize]
     public class FuncionesController : Controller
     {
         private readonly ReservaContext _context;
@@ -32,6 +34,7 @@ namespace RESERVA_C.Controllers
         // GET: Funciones
         public async Task<IActionResult> Index(int? peliculaId)
         {
+
             //Ejemplo();
             DateTime fechaActual = DateTime.Now;
             DateTime fechaLimite = fechaActual.AddDays(7);
@@ -254,18 +257,27 @@ namespace RESERVA_C.Controllers
             {
                 return Problem("Entity set 'ReservaContext.Funciones'  is null.");
             }
-            var funcion = await _context.Funciones.FindAsync(id);
-            //aca abajo, las reservas aparecen nulas, entonces se rompe
-            if (funcion != null && !funcion.Reservas.Any(r => r.Activa))
+            var funcion = await _context.Funciones.Include(f => f.Reservas).FirstOrDefaultAsync(f => f.Id == id);
+
+            if (funcion != null)
             {
-                _context.Funciones.Remove(funcion);
+                bool hayReservasActivas = funcion.Reservas.Any(r => r.Activa);
+
+                if (!hayReservasActivas)
+                {
+                    _context.Funciones.Remove(funcion);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home", new { mensaje = "no se puede eliminar la funcion" });
+                }
             }
-            else 
+            else
             {
                 return RedirectToAction("Index", "Home", new { mensaje = "no se puede eliminar la funcion" });
             }
-            
-            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

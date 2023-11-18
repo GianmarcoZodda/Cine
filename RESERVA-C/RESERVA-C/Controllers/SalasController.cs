@@ -104,6 +104,24 @@ namespace RESERVA_C.Controllers
             {
                 try
                 {
+                    var originalSala = await _context.Salas.FirstOrDefaultAsync(s => s.Id == id);
+                    if (originalSala == null) 
+                    {
+                        return NotFound();
+                    }
+                    originalSala.Numero = sala.Numero;
+                    originalSala.CapacidadButacas = sala.CapacidadButacas;
+
+                    IQueryable<Funcion> funcion = _context.Funciones
+                   .Include(f => f.Pelicula)
+                   .Include(f => f.Sala).Where(s => s.Id == id)
+                   .Include(f => f.Reservas.Where(r => r.Activa));
+
+                    if (!funcion.Any())
+                    {
+                        originalSala.TipoSala = sala.TipoSala;
+                    }
+
                     _context.Update(sala);
                     await _context.SaveChangesAsync();
                 }
@@ -125,6 +143,7 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Salas/Delete/5
+        [Authorize(Roles = "AdminRol")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Salas == null)
@@ -146,6 +165,7 @@ namespace RESERVA_C.Controllers
         // POST: Salas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "AdminRol")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Salas == null)

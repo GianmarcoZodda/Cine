@@ -47,12 +47,6 @@ namespace RESERVA_C.Controllers
                     var result = await _userManager.AddToRoleAsync(cliente, "ClienteRol");
                     await _signInManager.SignInAsync(cliente, isPersistent: false);
                     return RedirectToAction("EditRegistro", "Clientes", new { id = cliente.Id });
-                    //if (result.Succeeded)
-                    //{
-                    //    return RedirectToAction("Edit", "Clientes", new { id = cliente.Id });
-                    //}
-                 //si no se logra añadir el rol no nos va a llevar a la vista de edit. Aca abajo podemos decir que hacer en este caso 
-                
                 }
 
                 foreach (var error in resultado.Errors)
@@ -69,25 +63,25 @@ namespace RESERVA_C.Controllers
         //inicio de sesión (get)
         public IActionResult IniciarSesion(string returnurl)
         {
-            TempData["ReturnUrl "] = returnurl;
+            TempData["ReturnUrl"] = returnurl;
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> IniciarSesion(Login modelo)
         {
+            string returnUrl = TempData["ReturnUrl"] as string;
+
             if (ModelState.IsValid)
             {
                 var resultado = await _signInManager.PasswordSignInAsync(modelo.Email, modelo.Password, modelo.Recordarme, false);
                 if (resultado.Succeeded)
                 {
-                    string returnUrl = TempData["ReturnUrl"] as string;
                     if (!string.IsNullOrEmpty(returnUrl))
                     {
                         return Redirect(returnUrl);
                     }
-
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Peliculas");
                 }
                 ModelState.AddModelError(string.Empty, "Inicio de sesión inválido");
             }
