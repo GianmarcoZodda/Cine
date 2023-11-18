@@ -91,6 +91,7 @@ namespace RESERVA_C.Controllers
         // POST: Salas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Numero,TipoSalaId,CapacidadButacas")] Sala sala)
@@ -104,25 +105,28 @@ namespace RESERVA_C.Controllers
             {
                 try
                 {
-                    var originalSala = await _context.Salas.FirstOrDefaultAsync(s => s.Id == id);
-                    if (originalSala == null) 
+                    var originalSala = await _context.Salas
+                        .Include(s => s.Funciones)
+                        .ThenInclude(f => f.Reservas)
+                        .FirstOrDefaultAsync(s => s.Id == id);
+
+                    if (originalSala == null)
                     {
                         return NotFound();
                     }
+
                     originalSala.Numero = sala.Numero;
                     originalSala.CapacidadButacas = sala.CapacidadButacas;
 
-                    IQueryable<Funcion> funcion = _context.Funciones
-                   .Include(f => f.Pelicula)
-                   .Include(f => f.Sala).Where(s => s.Id == id)
-                   .Include(f => f.Reservas.Where(r => r.Activa));
+                    // Verificar si hay funciones con reservas activas
+                    bool hayFuncionesConReservasActivas = originalSala.Funciones.Any(f => f.Reservas.Any(r => r.Activa));
 
-                    if (!funcion.Any())
+                    if (!hayFuncionesConReservasActivas)
                     {
-                        originalSala.TipoSala = sala.TipoSala;
+                        originalSala.TipoSalaId = sala.TipoSalaId;
                     }
 
-                    _context.Update(sala);
+                    _context.Update(originalSala);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -138,6 +142,7 @@ namespace RESERVA_C.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["TipoSalaId"] = new SelectList(_context.TipoSalas, "Id", "Nombre", sala.TipoSalaId);
             return View(sala);
         }

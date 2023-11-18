@@ -24,7 +24,7 @@ namespace RESERVA_C.Models
         public DateTime Hora { get; set; }//propiedad autoimplementada para que el get sea de la prop FechaHora
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(200, MinimumLength = 15, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(200, MinimumLength = 15, ErrorMessage = ErrorMsgs.StrLength)]
         public string Descripcion { get; set; }
 
         //Esto va a ser una propiedad computada teniendo en cuenta la sala de la funcion y las reservas de esta

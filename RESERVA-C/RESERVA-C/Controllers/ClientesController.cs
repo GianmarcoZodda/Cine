@@ -96,6 +96,22 @@ namespace RESERVA_C.Controllers
         [Authorize(Roles = "AdminRol, EmpleadoRol, ClienteRol")]
         public async Task<IActionResult> Edit(int? id)
         {
+
+            if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
+            {
+                if (id == null || _context.Clientes == null)
+                {
+                    return NotFound();
+                }
+
+                var buscado = _context.Clientes.Find(id);
+                if (buscado == null)
+                {
+                    return NotFound();
+                }
+                return View(buscado);
+            }
+
             int usuarioId = Int32.Parse(_userManager.GetUserId(User));
 
             if (id == null || _context.Clientes == null)

@@ -205,7 +205,17 @@ namespace RESERVA_C.Controllers
             {
                 try
                 {
-                    _context.Update(funcion);
+                    var originalFuncion = await _context.Funciones.FirstOrDefaultAsync(f => f.Id == id);
+                    if (originalFuncion == null)
+                    {
+                        return NotFound();
+                    }
+                    originalFuncion.FechaHora = funcion.FechaHora;
+                    originalFuncion.Descripcion = funcion.Descripcion;
+                    originalFuncion.Confirmada = funcion.Confirmada;
+                    originalFuncion.PeliculaId = funcion.PeliculaId;
+                    originalFuncion.SalaId = funcion.SalaId;
+                    _context.Update(originalFuncion);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

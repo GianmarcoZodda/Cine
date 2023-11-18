@@ -14,7 +14,9 @@ namespace RESERVA_C.Models
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [Display(Name = "Tipo de Sala")]
-        public int TipoSalaId { get; set; }       
+        public int TipoSalaId { get; set; }
+
+        [Display(Name = "Tipo de Sala")]
         public TipoSala TipoSala { get; set; }
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
