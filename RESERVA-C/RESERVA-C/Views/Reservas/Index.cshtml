@@ -42,9 +42,18 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Funcion.FuncionCompleta)
-            </td>          
+                @if (User.IsInRole("AdminRol") || User.IsInRole("EmpleadoRol"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Funcion.FuncionCompleta)
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Funcion.Descripcion)
+                    </td>
+                }     
             <td>
                 @Html.DisplayFor(modelItem => item.Cliente.Apellido)
             </td>
