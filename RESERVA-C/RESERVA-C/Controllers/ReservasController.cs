@@ -99,6 +99,7 @@ namespace RESERVA_C.Controllers
             else
             {
                 ViewData["FuncionId"] = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta");
+
             }
             // ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido");
             // ViewData["FuncionId"] = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta");
@@ -119,16 +120,32 @@ namespace RESERVA_C.Controllers
                     int clienteId = Int32.Parse(_userManager.GetUserId(User));
                     reserva.ClienteId = clienteId;
                 }
+                if (reserva.Activa)
+                {
+                    DesactivarReservasActivas(reserva.ClienteId);
+                }
                 reserva.FechaAlta = DateTime.Now;
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", reserva.ClienteId);
-            ViewData["FuncionId"] = new SelectList(_context.Funciones, "Id", "Descripcion", reserva.FuncionId);
+            ViewData["FuncionId"] = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta", reserva.FuncionId);
             return View(reserva);
         }
+        public void DesactivarReservasActivas(int? clienteId)
+        {
+            var reservasActivas = _context.Reservas.Where(r => r.Activa && r.Funcion.FechaHora < DateTime.Now).Include(r => r.Funcion).ToList();
+            if (clienteId.HasValue)
+            {
+                reservasActivas = _context.Reservas.Where(r => r.ClienteId == clienteId && r.Activa).ToList();
+            }
 
+            foreach (var reservaActiva in reservasActivas)
+            {
+                reservaActiva.Activa = false;
+            }
+        }
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
