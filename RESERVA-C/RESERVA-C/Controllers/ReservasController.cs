@@ -29,8 +29,11 @@ namespace RESERVA_C.Controllers
         public async Task<IActionResult> Index(int? id, int? funcionId)
         {
             IQueryable<Reserva> reservaContext = _context.Reservas.Include(r => r.Cliente).Include(r => r.Funcion);
+
             int usuarioId = Int32.Parse(_userManager.GetUserId(User));
+
             ViewData["FuncionId"] = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta");
+
             if (User.IsInRole("ClienteRol"))
             {
                 if (id != null && usuarioId != id)
