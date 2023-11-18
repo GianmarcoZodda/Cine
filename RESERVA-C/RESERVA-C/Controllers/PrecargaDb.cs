@@ -285,7 +285,6 @@ namespace RESERVA_C.Controllers
                 Titulo = "Piratas del Caribe",
                 Descripcion = "Aparece Jack Sparrow y se pelea con el que tiene la pata de palo",
                 GeneroId = BuscarGenero("Ciencia Ficcion"),
-                //Funciones = agregarFunciones("Piratas del Caribe")
             };
             _context.Peliculas.Add(pelicula);
             _context.SaveChanges();

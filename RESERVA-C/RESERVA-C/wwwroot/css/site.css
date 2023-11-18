@@ -25,3 +25,12 @@ body {
     border-radius: 125px;
     margin: 0px;
 }
+
+
+/*agregar esta clase dialog elemento que corresponda*/
+.foto-pelicula {
+    background-size: 200px 200px;
+    height: 300px;
+    width: 200px;
+    margin: 0px;
+}
