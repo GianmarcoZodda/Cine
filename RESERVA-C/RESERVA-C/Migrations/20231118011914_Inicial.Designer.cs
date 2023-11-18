@@ -12,8 +12,8 @@ using RESERVA_C.Data;
 namespace RESERVA_C.Migrations
 {
     [DbContext(typeof(ReservaContext))]
-    [Migration("20231102002620_AgregadoIdentity")]
-    partial class AgregadoIdentity
+    [Migration("20231118011914_Inicial")]
+    partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -331,6 +331,9 @@ namespace RESERVA_C.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Activa")
+                        .HasColumnType("bit");
 
                     b.Property<int>("CantidadButacas")
                         .HasColumnType("int");

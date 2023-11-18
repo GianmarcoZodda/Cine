@@ -133,7 +133,7 @@ namespace RESERVA_C.Controllers
             ViewData["FuncionId"] = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta", reserva.FuncionId);
             return View(reserva);
         }
-        public void DesactivarReservasActivas(int? clienteId)
+        private void DesactivarReservasActivas(int? clienteId)
         {
             var reservasActivas = _context.Reservas.Where(r => r.Activa && r.Funcion.FechaHora < DateTime.Now).Include(r => r.Funcion).ToList();
             if (clienteId.HasValue)
@@ -146,6 +146,14 @@ namespace RESERVA_C.Controllers
                 reservaActiva.Activa = false;
             }
         }
+
+        public IActionResult DesactivarReservas(int? clienteId)
+        {
+            DesactivarReservasActivas(clienteId);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Home", new {mensaje = "desactive reservas pasadas"}); 
+        }
+
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
