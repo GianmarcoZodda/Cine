@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Reservas</h1>
 
 @if (User.IsInRole("AdminRol") || User.IsInRole("EmpleadoRol"))
 {
@@ -26,7 +26,7 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Funcion)
-            </th>           
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cliente)
             </th>
@@ -40,45 +40,119 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-                @if (User.IsInRole("AdminRol") || User.IsInRole("EmpleadoRol"))
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Funcion.FuncionCompleta)
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Funcion.Descripcion)
-                    </td>
-                }     
-            <td>
-                @Html.DisplayFor(modelItem => item.Cliente.Apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantidadButacas)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Activa)
-                </td>
-            <td>
-                    @if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
+        @foreach (var item in Model)
+        {
+            @if (item.Activa)
+            {
+                <tr>
+                    @if (User.IsInRole("AdminRol") || User.IsInRole("EmpleadoRol"))
                     {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    }else
-                    {
-                        if(item.Activa)
-                        {
-                            <a asp-action="Cancelar" asp-route-id="@item.Id">Cancelar Reserva</a>
-                        }  
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Funcion.FuncionCompleta)
+                        </td>
                     }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Funcion.Descripcion)
+                        </td>
+                    }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cliente.Apellido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CantidadButacas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Activa)
+                    </td>
+                    <td>
+                        @if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                        else
+                        {
+                            if (item.Activa)
+                            {
+                                <a asp-action="Cancelar" asp-route-id="@item.Id">Cancelar Reserva</a>
+                            }
+                        }
 
-            </td>
+                    </td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+<h1>Reservas Inactivas</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Funcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantidadButacas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Activa)
+            </th>
+            <th></th>
         </tr>
-}
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (!item.Activa)
+            {
+                <tr>
+                    @if (User.IsInRole("AdminRol") || User.IsInRole("EmpleadoRol"))
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Funcion.FuncionCompleta)
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Funcion.Descripcion)
+                        </td>
+                    }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cliente.Apellido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CantidadButacas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Activa)
+                    </td>
+                    <td>
+                        @if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                        else
+                        {
+                            if (item.Activa)
+                            {
+                                <a asp-action="Cancelar" asp-route-id="@item.Id">Cancelar Reserva</a>
+                            }
+                        }
+
+                    </td>
+                </tr>
+            }
+            
+        }
     </tbody>
 </table>
