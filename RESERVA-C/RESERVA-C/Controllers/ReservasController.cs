@@ -14,6 +14,7 @@ using RESERVA_C.Models.ViewModels;
 
 namespace RESERVA_C.Controllers
 {
+    [Authorize]
     public class ReservasController : Controller
     {
         private readonly ReservaContext _context;

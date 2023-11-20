@@ -11,6 +11,14 @@ namespace RESERVA_C.Models.ViewModels
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = ErrorMsgs.StrLength)]
+        public string Apellido { get; set; }
+
+        [Required(ErrorMessage = ErrorMsgs.Required)]
+        [Range(1000000, 99999999, ErrorMessage = ErrorMsgs.MaxMin)]
+        public int DNI { get; set; }
+
+        [Required(ErrorMessage = ErrorMsgs.Required)]
         [EmailAddress(ErrorMessage = ErrorMsgs.EmailInvalido)] 
         public string Email { get; set; }
 

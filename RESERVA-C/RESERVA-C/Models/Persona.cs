@@ -25,7 +25,7 @@ namespace RESERVA_C.Models
 
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
-        [Range(100000000, 999999999, ErrorMessage = ErrorMsgs.MaxMin)]
+        [Range(100000000, 99999999999, ErrorMessage = ErrorMsgs.MaxMin)]
         public int Telefono { get; set; }
 
 

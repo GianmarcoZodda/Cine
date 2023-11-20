@@ -12,6 +12,7 @@ using RESERVA_C.Models;
 
 namespace RESERVA_C.Controllers
 {
+    [Authorize(Roles = "AdminRol, EmpleadoRol")]
     public class EmpleadosController : Controller
     {
         private readonly ReservaContext _context;

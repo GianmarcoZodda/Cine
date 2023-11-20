@@ -71,7 +71,10 @@
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     }else
                     {
-                        <a asp-action="Cancelar" asp-route-id="@item.Id">Cancelar Reserva</a>
+                        if(item.Activa)
+                        {
+                            <a asp-action="Cancelar" asp-route-id="@item.Id">Cancelar Reserva</a>
+                        }  
                     }
 
             </td>

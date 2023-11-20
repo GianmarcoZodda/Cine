@@ -296,8 +296,6 @@ namespace RESERVA_C.Controllers
                             return NotFound();
                         }
                         originalCliente.FechaAlta = DateTime.Now;
-                        originalCliente.Apellido = updatedCliente.Apellido;
-                        originalCliente.DNI = updatedCliente.DNI;
                         originalCliente.Telefono = updatedCliente.Telefono;
                         originalCliente.Direccion = updatedCliente.Direccion;
                         _context.Update(originalCliente);

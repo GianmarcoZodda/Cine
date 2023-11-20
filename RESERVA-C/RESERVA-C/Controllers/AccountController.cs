@@ -36,6 +36,8 @@ namespace RESERVA_C.Controllers
                 Cliente cliente = new Cliente()
                 {
                     Nombre = model.Nombre,
+                    Apellido = model.Apellido,
+                    DNI = model.DNI,
                     Email = model.Email,
                     UserName = model.Email,
                 };

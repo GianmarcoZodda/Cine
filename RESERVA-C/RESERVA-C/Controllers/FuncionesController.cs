@@ -13,7 +13,7 @@ using RESERVA_C.Models.ViewModels;
 
 namespace RESERVA_C.Controllers
 {
-    [Authorize]
+
     public class FuncionesController : Controller
     {
         private readonly ReservaContext _context;
@@ -37,7 +37,7 @@ namespace RESERVA_C.Controllers
 
             //Ejemplo();
             DateTime fechaActual = DateTime.Now;
-            DateTime fechaLimite = fechaActual.AddDays(7);
+            DateTime fechaLimite = fechaActual.Date.AddHours(23).AddMinutes(59).AddSeconds(59).AddDays(7);
 
             List<FuncionIndexVM> funcionesAMostrar = new List<FuncionIndexVM>();
             IQueryable<Funcion> funcionesAProcesar = _context.Funciones
