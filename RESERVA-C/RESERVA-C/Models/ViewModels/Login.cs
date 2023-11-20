@@ -12,6 +12,7 @@ namespace RESERVA_C.Models.ViewModels
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [StringLength(30, MinimumLength = 8, ErrorMessage = ErrorMsgs.StrLength)]
+        [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
 

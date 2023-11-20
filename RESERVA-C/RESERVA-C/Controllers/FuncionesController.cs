@@ -45,7 +45,7 @@ namespace RESERVA_C.Controllers
                    .Include(f => f.Sala)
                    .Include(f => f.Reservas.Where(r => r.Activa));
             if (User.IsInRole("ClienteRol")) {
-                funcion = funcion.Where(f => f.FechaHora >= fechaActual && f.FechaHora <= fechaLimite && f.Confirmada && f.FechaHora >= fechaActual);
+                funcion = funcion.Where(f => f.FechaHora >= fechaActual && f.FechaHora <= fechaLimite && f.Confirmada);
             }
             if (peliculaId.HasValue)
             {
