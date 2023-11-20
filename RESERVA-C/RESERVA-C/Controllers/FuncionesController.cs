@@ -40,18 +40,18 @@ namespace RESERVA_C.Controllers
             DateTime fechaLimite = fechaActual.AddDays(7);
 
             List<FuncionIndexVM> funcionesAMostrar = new List<FuncionIndexVM>();
-            IQueryable<Funcion> funcion = _context.Funciones
+            IQueryable<Funcion> funcionesAProcesar = _context.Funciones
                    .Include(f => f.Pelicula)
                    .Include(f => f.Sala)
                    .Include(f => f.Reservas.Where(r => r.Activa));
             if (User.IsInRole("ClienteRol")) {
-                funcion = funcion.Where(f => f.FechaHora >= fechaActual && f.FechaHora <= fechaLimite && f.Confirmada);
+                funcionesAProcesar = funcionesAProcesar.Where(f => f.FechaHora >= fechaActual && f.FechaHora <= fechaLimite && f.Confirmada);
             }
             if (peliculaId.HasValue)
             {
-                funcion = funcion.Where(f => f.Pelicula.Id == peliculaId);
+                funcionesAProcesar = funcionesAProcesar.Where(f => f.Pelicula.Id == peliculaId);
             }
-            List<FuncionIndexVM> funcionesIndexVM = CalcularButacasDisponibles(funcion.ToList());
+            List<FuncionIndexVM> funcionesIndexVM = CalcularButacasDisponibles(funcionesAProcesar.ToList());
 
             foreach (var actual in funcionesIndexVM)
             {
@@ -100,8 +100,6 @@ namespace RESERVA_C.Controllers
                 }
                 lista.Add(funcionIndexVM);
             }
-
-
             return lista;
         }
 
