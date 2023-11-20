@@ -11,6 +11,7 @@ namespace RESERVA_C.Models
 
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [Display(Name = "Fecha y Hora")]
+        [DataType(DataType.DateTime)]
         public DateTime FechaHora { get; set; }
 
         [NotMapped]
