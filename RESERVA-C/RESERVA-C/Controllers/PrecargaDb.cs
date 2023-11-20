@@ -285,7 +285,7 @@ namespace RESERVA_C.Controllers
                 Titulo = "Piratas del Caribe",
                 Descripcion = "Aparece Jack Sparrow y se pelea con el que tiene la pata de palo",
                 GeneroId = BuscarGenero("Ciencia Ficcion"),
-                Imagen = "/css/img/logo2.jpg"
+                Imagen = "/css/img/piratas.jpg"
             };
             _context.Peliculas.Add(pelicula);
             _context.SaveChanges();
@@ -293,9 +293,10 @@ namespace RESERVA_C.Controllers
             Pelicula pelicula2 = new Pelicula()
             {
                 FechaLanzamiento = new DateTime(2010, 08, 25),
-                Titulo = "El Enigma del Candelabro",
-                Descripcion = "Un misterioso asesinato en una mansión.",
-                GeneroId = BuscarGenero("Misterio")
+                Titulo = "Muerte en el Nilo",
+                Descripcion = "Una peli de misterio muy buena.",
+                GeneroId = BuscarGenero("Misterio"),
+                Imagen = "/css/img/nilo.jpg"
             };
             _context.Peliculas.Add(pelicula2);
             _context.SaveChanges();
@@ -303,9 +304,10 @@ namespace RESERVA_C.Controllers
             Pelicula pelicula3 = new Pelicula()
             {
                 FechaLanzamiento = new DateTime(2015, 12, 10),
-                Titulo = "Amor en París",
-                Descripcion = "Una historia de amor en la ciudad de la luz.",
-                GeneroId = BuscarGenero("Romance")
+                Titulo = "Antes de Ti",
+                Descripcion = "Una peli para romanticos",
+                GeneroId = BuscarGenero("Romance"),
+                Imagen = "/css/img/antesDeTi.jpg"
             };
             _context.Peliculas.Add(pelicula3);
             _context.SaveChanges();
@@ -313,9 +315,10 @@ namespace RESERVA_C.Controllers
             Pelicula pelicula4 = new Pelicula()
             {
                 FechaLanzamiento = new DateTime(2018, 06, 30),
-                Titulo = "La Búsqueda del Tesoro Perdido",
+                Titulo = "La Leyenda del Tesoro Perdido",
                 Descripcion = "Aventuras en busca de un tesoro oculto.",
-                GeneroId = BuscarGenero("Aventura")
+                GeneroId = BuscarGenero("Aventura"),
+                Imagen = "/css/img/tesoroPerdido.jpg"
             };
             _context.Peliculas.Add(pelicula4);
             _context.SaveChanges();
@@ -323,9 +326,10 @@ namespace RESERVA_C.Controllers
             Pelicula pelicula5 = new Pelicula()
             {
                 FechaLanzamiento = new DateTime(2022, 03, 15),
-                Titulo = "La Historia Olvidada",
-                Descripcion = "Una épica saga histórica.",
-                GeneroId = BuscarGenero("Historia")
+                Titulo = "Gladiador",
+                Descripcion = "la mejor peli de la historia, despues de casi 300",
+                GeneroId = BuscarGenero("Historia"),
+                Imagen = "/css/img/gladiador2.jpg"
             };
             _context.Peliculas.Add(pelicula5);
             _context.SaveChanges();
@@ -459,7 +463,7 @@ namespace RESERVA_C.Controllers
             {
                 FechaHora = DateTime.Now.AddDays(6),
                 Descripcion = "Gran aventura en alta mar",
-                PeliculaId = BuscarPelicula("El Enigma del Candelabro"),
+                PeliculaId = BuscarPelicula("Muerte en el Nilo"),
                 SalaId = BuscarSala(13),
                 Confirmada = true
             };
@@ -470,7 +474,7 @@ namespace RESERVA_C.Controllers
             {
                 FechaHora = DateTime.Now.AddDays(2),
                 Descripcion = "Romance en París",
-                PeliculaId = BuscarPelicula("Amor en París"),
+                PeliculaId = BuscarPelicula("Antes de Ti"),
                 SalaId = BuscarSala(14),
                 Confirmada = true
             };
@@ -480,8 +484,8 @@ namespace RESERVA_C.Controllers
             Funcion funcion4 = new Funcion()
             {
                 FechaHora = DateTime.Now.AddDays(1),
-                Descripcion = "La búsqueda del tesoro perdido",
-                PeliculaId = BuscarPelicula("La Búsqueda del Tesoro Perdido"),
+                Descripcion = "buscan un tesoro perdido y esta nicolas cage, asi que es una buena peli seguramente",
+                PeliculaId = BuscarPelicula("La Leyenda del Tesoro Perdido"),
                 SalaId = BuscarSala(15),
                 Confirmada = true
             };
@@ -492,7 +496,7 @@ namespace RESERVA_C.Controllers
             {
                 FechaHora = DateTime.Now.AddDays(4),
                 Descripcion = "Épica historia del pasado",
-                PeliculaId = BuscarPelicula("La Historia Olvidada"),
+                PeliculaId = BuscarPelicula("Gladiador"),
                 SalaId = BuscarSala(16),
                 Confirmada = true
             };
