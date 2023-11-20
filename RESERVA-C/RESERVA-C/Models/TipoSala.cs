@@ -8,7 +8,7 @@ namespace RESERVA_C.Models
         public int Id { get; set; }
 
         [Required (ErrorMessage = ErrorMsgs.Required)]
-        [StringLength(50, MinimumLength = 5, ErrorMessage = ErrorMsgs.MaxMin)]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = ErrorMsgs.MaxMin)]
         public string Nombre { get; set; }
         [Required(ErrorMessage = ErrorMsgs.Required)]
         [Range(1, int.MaxValue, ErrorMessage = ErrorMsgs.MaxMin)]

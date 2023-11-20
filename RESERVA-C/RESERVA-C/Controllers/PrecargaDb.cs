@@ -281,10 +281,11 @@ namespace RESERVA_C.Controllers
         {
             Pelicula pelicula = new Pelicula()
             {
-                FechaLanzamiento = new DateTime(2006,04,14),
+                FechaLanzamiento = new DateTime(2006, 04, 14),
                 Titulo = "Piratas del Caribe",
                 Descripcion = "Aparece Jack Sparrow y se pelea con el que tiene la pata de palo",
                 GeneroId = BuscarGenero("Ciencia Ficcion"),
+                Imagen = "/css/img/logo2.jpg"
             };
             _context.Peliculas.Add(pelicula);
             _context.SaveChanges();

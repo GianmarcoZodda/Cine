@@ -245,13 +245,22 @@ namespace RESERVA_C.Controllers
 
             var funcion = await _context.Funciones
                 .Include(f => f.Pelicula)
+                .Include(f => f.Reservas)
                 .Include(f => f.Sala)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (funcion == null)
             {
                 return NotFound();
             }
 
+            bool hayReservasActivas = funcion.Reservas.Any(r => r.Activa);
+
+            if (hayReservasActivas)
+            {
+                return RedirectToAction("Index", "Home", new { mensaje = "no se puede eliminar la funcion porque tiene reservas activas" });
+            }
+  
             return View(funcion);
         }
 
@@ -265,27 +274,18 @@ namespace RESERVA_C.Controllers
             {
                 return Problem("Entity set 'ReservaContext.Funciones'  is null.");
             }
-            var funcion = await _context.Funciones.Include(f => f.Reservas).FirstOrDefaultAsync(f => f.Id == id);
+            var funcion = await _context.Funciones.FindAsync(id);
 
             if (funcion != null)
             {
-                bool hayReservasActivas = funcion.Reservas.Any(r => r.Activa);
-
-                if (!hayReservasActivas)
-                {
-                    _context.Funciones.Remove(funcion);
-                    await _context.SaveChangesAsync();
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Home", new { mensaje = "no se puede eliminar la funcion" });
-                }
+                _context.Funciones.Remove(funcion);
             }
             else
             {
-                return RedirectToAction("Index", "Home", new { mensaje = "no se puede eliminar la funcion" });
+                return RedirectToAction("Index", "Home", new { mensaje = "no existe la funcion" });
             }
 
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

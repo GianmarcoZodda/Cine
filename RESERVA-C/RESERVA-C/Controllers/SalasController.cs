@@ -147,46 +147,6 @@ namespace RESERVA_C.Controllers
             return View(sala);
         }
 
-        // GET: Salas/Delete/5
-        [Authorize(Roles = "AdminRol")]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Salas == null)
-            {
-                return NotFound();
-            }
-
-            var sala = await _context.Salas
-                .Include(s => s.TipoSala)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (sala == null)
-            {
-                return NotFound();
-            }
-
-            return View(sala);
-        }
-
-        // POST: Salas/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "AdminRol")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Salas == null)
-            {
-                return Problem("Entity set 'ReservaContext.Salas'  is null.");
-            }
-            var sala = await _context.Salas.FindAsync(id);
-            if (sala != null)
-            {
-                _context.Salas.Remove(sala);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
         private bool SalaExists(int id)
         {
           return _context.Salas.Any(e => e.Id == id);

@@ -32,24 +32,32 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Imagen)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Titulo)
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Imagen))
+                    {
+                        <img src="@item.Imagen" alt="Portada" style="max-width: 100px; max-height: 150px;" />
+                    }
+                    else
+                    {
+                        <p>No hay imagen disponible</p>
+                    }
+                </td>
+                <td>
                     @if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                         <a asp-action="Delete" asp-route-id="@item.Id"> Delete</a>
                     }
-                    |<a asp-action="Details" asp-route-id="@item.Id">Details </a>| 
+                    | <a asp-action="Details" asp-route-id="@item.Id">Details </a>|
                     <a asp-controller="Funciones" asp-action="Index" asp-route-peliculaId="@item.Id">Ver Funciones</a>|
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
