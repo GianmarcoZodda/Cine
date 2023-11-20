@@ -18,9 +18,10 @@ namespace RESERVA_C.Controllers
         private readonly ReservaContext _context;
         private readonly UserManager<Persona> _userManager;
 
-        public EmpleadosController(ReservaContext context)
+        public EmpleadosController(ReservaContext context, UserManager<Persona> user)
         {
             _context = context;
+            _userManager = user;
         }
 
         // GET: Empleados
@@ -65,9 +66,23 @@ namespace RESERVA_C.Controllers
             if (ModelState.IsValid)
             {
                 empleado.FechaAlta = DateTime.Now;
-                _context.Add(empleado);
-                await _userManager.AddToRoleAsync(empleado, "EmpleadoRol");
-                await _context.SaveChangesAsync();
+                //empleado.Password = "Password1!";
+                //_context.Add(empleado);
+
+                var resultado = await _userManager.CreateAsync(empleado, "Password1!");
+
+                if (resultado.Succeeded)
+                {
+                    var result = await _userManager.AddToRoleAsync(empleado, "EmpleadoRol");
+                }
+
+                foreach (var error in resultado.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                //await _userManager.AddToRoleAsync(empleado, "EmpleadoRol");
+                //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(empleado);
