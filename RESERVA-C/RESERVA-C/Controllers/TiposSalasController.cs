@@ -60,8 +60,17 @@ namespace RESERVA_C.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(tipoSala);
-                await _context.SaveChangesAsync();
+                bool tipoSalaExists = _context.TipoSalas.Any(ts => ts.Nombre == tipoSala.Nombre);
+
+                if (tipoSalaExists)
+                {
+                    return RedirectToAction("Index", "Home", new { mensaje = "ya existe una sala con ese nombre" });
+                }
+                else 
+                {
+                    _context.Add(tipoSala);
+                    await _context.SaveChangesAsync();
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(tipoSala);
