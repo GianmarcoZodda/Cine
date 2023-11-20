@@ -74,17 +74,36 @@ namespace RESERVA_C.Controllers
         // GET: Salas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Salas == null)
+            if (id == null || _context.Reservas == null)
             {
                 return NotFound();
             }
 
             var sala = await _context.Salas.FindAsync(id);
+            
             if (sala == null)
             {
                 return NotFound();
             }
-            ViewData["TipoSalaId"] = new SelectList(_context.TipoSalas, "Id", "Nombre", sala.TipoSalaId);
+
+            var salaConReserva = await _context.Salas
+                       .Include(s => s.Funciones)
+                       .ThenInclude(f => f.Reservas)
+                       .FirstOrDefaultAsync(s => s.Id == id);
+
+            bool hayFuncionesConReservasActivas = salaConReserva.Funciones.Any(f => f.Reservas.Any(r => r.Activa));
+
+            ViewData["TieneReservas"] = hayFuncionesConReservasActivas;
+
+            if (hayFuncionesConReservasActivas)
+            {
+                var tipoSala = await _context.TipoSalas.FindAsync(sala.TipoSalaId);
+                ViewData["TipoSala"] = tipoSala;
+            }
+            else
+            {
+                ViewData["TipoSalaId"] = new SelectList(_context.TipoSalas, "Id", "Nombre", sala.TipoSalaId);
+            }
             return View(sala);
         }
 
