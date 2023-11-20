@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Funciones</h1>
 @if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
 {
     <p>
@@ -37,36 +37,104 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pelicula.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fecha)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hora)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sala.Numero)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Confirmada)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ButacasDisponibles)
-            </td>
-            <td>
-                    @if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    }
-                    <a asp-controller="Reservas" asp-action="Create" asp-route-funcionId="@item.Id">Reservar</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            @if (item.FechaHora >= DateTime.Now)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pelicula.Titulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hora)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sala.Numero)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Confirmada)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ButacasDisponibles)
+                    </td>
+                    <td>
+                        @if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                        <a asp-controller="Reservas" asp-action="Create" asp-route-funcionId="@item.Id">Reservar</a>
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>
+@if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol")){
+    <h1>Funciones Pasadas</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Pelicula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sala)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Confirmada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ButacasDisponibles)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.FechaHora < DateTime.Now)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pelicula.Titulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hora)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sala.Numero)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Confirmada)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ButacasDisponibles)
+                    </td>
+                    <td>
+                        @if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                    <a asp-controller="Reservas" asp-action="Create" asp-route-funcionId="@item.Id">Reservar</a>
+                </td>
+            </tr>}
+        }
+    </tbody>
+</table>
+}
