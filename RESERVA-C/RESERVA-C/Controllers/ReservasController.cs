@@ -140,7 +140,8 @@ namespace RESERVA_C.Controllers
                 }
                 if (reserva.Activa)
                 {
-                    DesactivarReservasActivas(reserva.ClienteId);
+                    return RedirectToAction("Index", "Home", new { mensaje = "El cliente ya tiene una reserva activa" });
+                    //DesactivarReservasActivas(reserva.ClienteId);
                 }
                 reserva.FechaAlta = DateTime.Now;
                 _context.Add(reserva);
