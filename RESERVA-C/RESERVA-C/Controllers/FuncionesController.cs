@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,8 +30,50 @@ namespace RESERVA_C.Controllers
         //    //buscar costo por tipo de sala
 
         //}
+        private async Task<decimal> ObtenerRecaudacion(int idPelicula)
+        {
+            int mesActual = DateTime.Now.Month;
+            decimal total = 0;
 
+            var funcionesXPelicula = await _context.Funciones
+                .Include(f => f.Reservas)
+                .Include(f => f.Sala)
+                .ThenInclude(s => s.TipoSala)
+                .Where(f => f.PeliculaId == idPelicula && f.FechaHora.Month == mesActual)
+                .ToListAsync();
 
+            foreach (var f in funcionesXPelicula)
+            {
+                int cantAsientos = f.Reservas.Sum(r => r.CantidadButacas);
+                decimal precio = f.Sala.TipoSala.Precio;
+                total += precio * cantAsientos;
+            }
+
+            return total;
+        }
+
+        public async Task<IActionResult> RecaudacionPorPeliculaEnMes()
+        {
+            // Obtener las recaudaciones por película para el mes actual
+            var recaudacionesPorPelicula = new List<RecaudacionPorPeliculaVM>();
+
+            // Asegúrate de esperar la ejecución asíncrona aquí
+            var peliculas = await _context.Peliculas.ToListAsync();
+
+            foreach (var pelicula in peliculas)
+            {
+                RecaudacionPorPeliculaVM recaudacionPorPelicula = new RecaudacionPorPeliculaVM()
+                {
+                    Id = pelicula.Id,
+                    Imagen = pelicula.Imagen,
+                    Titulo = pelicula.Titulo,
+                    Recaudacion = await ObtenerRecaudacion(pelicula.Id)
+                };
+                recaudacionesPorPelicula.Add(recaudacionPorPelicula);
+            }
+
+            return View(recaudacionesPorPelicula);
+        }
         // GET: Funciones
         public async Task<IActionResult> Index(int? peliculaId, int? cantidadButacas)
         {

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<RESERVA_C.Models.ViewModels.RecaudacionPorPeliculaVM>
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Recaudacion de Peliculas en el mes actual</h1>
+@if (User.IsInRole("EmpleadoRol") || User.IsInRole("AdminRol"))
+{
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Imagen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recaudacion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Titulo)
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Imagen))
+                    {
+                        <img class="peliculaImg" src="@item.Imagen" alt="Portada" style="max-width: 100px; max-height: 150px;" />
+                    }
+                    else
+                    {
+                        <p>No hay imagen disponible</p>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Recaudacion)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
