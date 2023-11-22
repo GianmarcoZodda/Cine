@@ -1,34 +1,22 @@
-﻿@model RESERVA_C.Models.Pelicula
+﻿@model RESERVA_C.Models.ViewModels.PeliculaReservarVM
+
 @{
     ViewData["Title"] = "Reservar";
 }
 
 <h1>Reservar Butacas</h1>
 
-<div class="form-group">
-    <label for="cantidadButacas">Cantidad de Butacas:</label>
-    <input type="number" class="form-control" id="cantidadButacas" name="cantidadButacas" required />
-</div>
-<input type="hidden" id="peliculaId" value="@ViewBag.PeliculaId" />
-
-<a id="buscarFuncionesLink" class="btn btn-primary" href="#">Buscar Funciones Disponibles</a>
-
+<form asp-action="Index" asp-controller="Funciones" method="get">
+    <div class="form-group">
+        <label asp-for="CantidadButacas" class="control-label"></label>
+        <input asp-for="CantidadButacas" class="form-control" />
+        <span asp-validation-for="CantidadButacas" class="text-danger"></span>
+    </div>
+    <input type="hidden" name="peliculaId" value="@ViewBag.PeliculaId" />
+    <button type="submit" class="btn btn-primary">Buscar Funciones Disponibles</button>
+</form>
 @section Scripts {
-    <script>
-        // Este script se ejecutará cuando la página esté lista
-        document.addEventListener('DOMContentLoaded', function () {
-            // Agrega un evento de clic al enlace de búsqueda
-            document.getElementById('buscarFuncionesLink').addEventListener('click', function () {
-                // Obtiene la cantidad de butacas y el Id de la película
-                var cantidadButacas = document.getElementById('cantidadButacas').value;
-                var peliculaId = document.getElementById('peliculaId').value;
-
-                // Construye la URL con los parámetros
-                var nuevaUrl = '@Url.Action("Index", "Funciones")' + '?peliculaId=' + peliculaId + '&cantidadButacas=' + cantidadButacas;
-
-                // Redirige a la URL construida
-                window.location.href = nuevaUrl;
-            });
-        });
-    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
