@@ -36,6 +36,11 @@ namespace RESERVA_C.Controllers
 
             return View(peliculas);
         }
+        public IActionResult Reservar(int peliculaId)
+        {
+            ViewBag.PeliculaId = peliculaId;
+            return View();
+        }
 
         // GET: Peliculas/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -32,7 +32,7 @@ namespace RESERVA_C.Controllers
 
 
         // GET: Funciones
-        public async Task<IActionResult> Index(int? peliculaId)
+        public async Task<IActionResult> Index(int? peliculaId, int? cantidadButacas)
         {
 
             //Ejemplo();
@@ -57,7 +57,15 @@ namespace RESERVA_C.Controllers
             {
                 if (actual.ButacasDisponibles > 0)
                 {
-                    funcionesAMostrar.Add(actual);
+                    if (cantidadButacas.HasValue) 
+                    { if(actual.ButacasDisponibles >= cantidadButacas)
+                        {
+                            funcionesAMostrar.Add(actual);
+                        }
+                        
+                    }else 
+                    { funcionesAMostrar.Add(actual); }
+                    
                 }
             }
 

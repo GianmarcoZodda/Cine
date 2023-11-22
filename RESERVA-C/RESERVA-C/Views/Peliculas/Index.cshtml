@@ -56,6 +56,7 @@
                     }
                     | <a asp-action="Details" asp-route-id="@item.Id">Details </a>|
                     <a asp-controller="Funciones" asp-action="Index" asp-route-peliculaId="@item.Id">Ver Funciones</a>|
+                    <a asp-controller="Peliculas" asp-action="Reservar" asp-route-peliculaId="@item.Id">Reservar</a>
                 </td>
             </tr>
         }

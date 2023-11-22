@@ -1,0 +1,15 @@
+﻿@model RESERVA_C.Models.Pelicula
+@{
+    ViewData["Title"] = "Reservar";
+}
+
+<h1>Reservar Butacas</h1>
+
+<form asp-action="Index" asp-controller="Funciones">
+    <div class="form-group">
+        <label for="cantidadButacas">Cantidad de Butacas:</label>
+        <input type="number" class="form-control" id="cantidadButacas" name="cantidadButacas" required />
+    </div>
+    <input type="hidden" name="peliculaId" value="@ViewBag.PeliculaId" />
+    <button type="submit" class="btn btn-primary">Buscar Funciones Disponibles</button>
+</form>

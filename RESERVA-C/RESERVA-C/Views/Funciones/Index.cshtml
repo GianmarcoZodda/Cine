@@ -68,6 +68,7 @@
                             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         }
                         <a asp-controller="Reservas" asp-action="Create" asp-route-funcionId="@item.Id">Reservar</a>
+                        <a asp-controller="Reservas" asp-action="Create" asp-route-funcionId="@item.Id" asp-route-cantidadButacas="1">Reservar</a>
                     </td>
                 </tr>
             }

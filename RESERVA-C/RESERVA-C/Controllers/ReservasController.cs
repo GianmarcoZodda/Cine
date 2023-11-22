@@ -104,7 +104,7 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Reservas/Create
-        public IActionResult Create(int? funcionId)
+        public IActionResult Create(int? funcionId, int? cantidadButacas)
         {
             if (User.IsInRole("AdminRol") || User.IsInRole("EmpleadoRol"))
             {
@@ -129,16 +129,28 @@ namespace RESERVA_C.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? funcionId, [Bind("Id,FuncionId,FechaAlta,ClienteId,CantidadButacas,Activa")] Reserva reserva)
+        public async Task<IActionResult> Create(int? funcionId, int cantidadButacas, [Bind("Id,FuncionId,FechaAlta,ClienteId,CantidadButacas,Activa")] Reserva reserva)
         {
+            if (cantidadButacas>0)
+            {
+                reserva.CantidadButacas = cantidadButacas;
+            }
+            
             if (ModelState.IsValid)
             {
+                var funcion = await _context.Funciones.Include(f => f.Reservas).FirstOrDefaultAsync(f => f.Id == funcionId);
+
+                // Verificar disponibilidad de butacas
+                if (funcion == null || funcion.ButacasDisponibles < reserva.CantidadButacas)
+                {
+                    return RedirectToAction("Index", "Home", new { mensaje = "No hay Butacas suficientes para esta funcion" });
+                }
                 if (User.IsInRole("ClienteRol"))
                 {
                     int clienteId = Int32.Parse(_userManager.GetUserId(User));
                     reserva.ClienteId = clienteId;
                 }
-                if (reserva.Activa)
+                if (!reserva.Activa)
                 {
                     return RedirectToAction("Index", "Home", new { mensaje = "El cliente ya tiene una reserva activa" });
                     //DesactivarReservasActivas(reserva.ClienteId);
