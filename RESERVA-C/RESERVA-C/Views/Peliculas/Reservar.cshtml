@@ -5,11 +5,30 @@
 
 <h1>Reservar Butacas</h1>
 
-<form asp-action="Index" asp-controller="Funciones">
-    <div class="form-group">
-        <label for="cantidadButacas">Cantidad de Butacas:</label>
-        <input type="number" class="form-control" id="cantidadButacas" name="cantidadButacas" required />
-    </div>
-    <input type="hidden" name="peliculaId" value="@ViewBag.PeliculaId" />
-    <button type="submit" class="btn btn-primary">Buscar Funciones Disponibles</button>
-</form>
+<div class="form-group">
+    <label for="cantidadButacas">Cantidad de Butacas:</label>
+    <input type="number" class="form-control" id="cantidadButacas" name="cantidadButacas" required />
+</div>
+<input type="hidden" id="peliculaId" value="@ViewBag.PeliculaId" />
+
+<a id="buscarFuncionesLink" class="btn btn-primary" href="#">Buscar Funciones Disponibles</a>
+
+@section Scripts {
+    <script>
+        // Este script se ejecutará cuando la página esté lista
+        document.addEventListener('DOMContentLoaded', function () {
+            // Agrega un evento de clic al enlace de búsqueda
+            document.getElementById('buscarFuncionesLink').addEventListener('click', function () {
+                // Obtiene la cantidad de butacas y el Id de la película
+                var cantidadButacas = document.getElementById('cantidadButacas').value;
+                var peliculaId = document.getElementById('peliculaId').value;
+
+                // Construye la URL con los parámetros
+                var nuevaUrl = '@Url.Action("Index", "Funciones")' + '?peliculaId=' + peliculaId + '&cantidadButacas=' + cantidadButacas;
+
+                // Redirige a la URL construida
+                window.location.href = nuevaUrl;
+            });
+        });
+    </script>
+}

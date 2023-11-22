@@ -34,6 +34,7 @@ namespace RESERVA_C.Controllers
             int usuarioId = Int32.Parse(_userManager.GetUserId(User));
 
             ViewData["FuncionId"] = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta");
+            ViewBag.CantidadButacas = HttpContext.Request.Query["cantidadButacas"];
 
             if (User.IsInRole("ClienteRol"))
             {
@@ -104,7 +105,7 @@ namespace RESERVA_C.Controllers
         }
 
         // GET: Reservas/Create
-        public IActionResult Create(int? funcionId, int? cantidadButacas)
+        public IActionResult Create(int? funcionId)
         {
             if (User.IsInRole("AdminRol") || User.IsInRole("EmpleadoRol"))
             {
@@ -138,10 +139,10 @@ namespace RESERVA_C.Controllers
             
             if (ModelState.IsValid)
             {
-                var funcion = await _context.Funciones.Include(f => f.Reservas).FirstOrDefaultAsync(f => f.Id == funcionId);
-
+                Funcion funcion = await _context.Funciones.Include(f => f.Sala).Include(f => f.Reservas).FirstOrDefaultAsync(f => f.Id == funcionId);
+                int butacasDisponibles = CalcularButacas(funcion.Sala.CapacidadButacas, funcion.Reservas);
                 // Verificar disponibilidad de butacas
-                if (funcion == null || funcion.ButacasDisponibles < reserva.CantidadButacas)
+                if (funcion == null || butacasDisponibles < reserva.CantidadButacas)
                 {
                     return RedirectToAction("Index", "Home", new { mensaje = "No hay Butacas suficientes para esta funcion" });
                 }
@@ -150,7 +151,9 @@ namespace RESERVA_C.Controllers
                     int clienteId = Int32.Parse(_userManager.GetUserId(User));
                     reserva.ClienteId = clienteId;
                 }
-                if (!reserva.Activa)
+                bool tieneReservaActiva = _context.Reservas.Any(r => r.ClienteId == reserva.ClienteId && r.Activa);
+
+                if (tieneReservaActiva)
                 {
                     return RedirectToAction("Index", "Home", new { mensaje = "El cliente ya tiene una reserva activa" });
                     //DesactivarReservasActivas(reserva.ClienteId);
@@ -163,6 +166,20 @@ namespace RESERVA_C.Controllers
             ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Apellido", reserva.ClienteId);
             ViewData["FuncionId"] = new SelectList(_context.Funciones.Include(f => f.Pelicula).Include(f => f.Sala), "Id", "FuncionCompleta", reserva.FuncionId);
             return View(reserva);
+        }
+        private int CalcularButacas(int capacidadButacas, List<Reserva> reservas)
+        {
+            return capacidadButacas - GetCantidadButacas(reservas);
+        }
+
+        private int GetCantidadButacas(List<Reserva> reservas)
+        {
+            int resultado = 0;
+            foreach (Reserva reserva in reservas)
+            {
+                resultado += reserva.CantidadButacas;
+            }
+            return resultado;
         }
         private void DesactivarReservasActivas(int? clienteId)
         {
