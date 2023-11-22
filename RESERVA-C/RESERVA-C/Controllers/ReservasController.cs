@@ -343,7 +343,7 @@ namespace RESERVA_C.Controllers
             var reserva = await _context.Reservas.FindAsync(id);
             if (reserva != null)
             {
-                _context.Reservas.Remove(reserva);
+                reserva.Activa = false;
             }
 
             await _context.SaveChangesAsync();
