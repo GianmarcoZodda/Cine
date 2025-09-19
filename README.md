@@ -1,7 +1,7 @@
 # Reserva Espectaculo 📖
 
 ## Objetivos 📋
-Desarrollar un sistema, que permita la administración general de un consultorio (de cara a los administradores): Prestaciones, Profesionales, Pacientes, etc., como así también, permitir a los pacientes, realizar reserva sobre turnos ofrecidos.
+Desarrollar un sistema, que permita la administración general de un cine.
 Utilizar Visual Studio 2022 preferentemente y crear una aplicación utilizando ASP.NET MVC Core (versión a definir por el docente ).
 
 <hr />
